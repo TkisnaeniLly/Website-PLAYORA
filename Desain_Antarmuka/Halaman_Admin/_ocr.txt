@@ -1,0 +1,227 @@
+﻿===== PLAYORA_Admin_Kelola Berita.png =====
+[  64,  35] PLAYORA
+[  52, 150] Dashboard
+[  52, 186] Kelola Ber-ita
+[  52, 222] Kelola Bern an e
+[  52, 258] Keda Fonw_na
+[  52, 293] Kelola pengguna
+[  89, 329] & Statistik
+[  52, 364] pengaturan
+[  52, 474] Keluat
+[ 171,  57] Kelola Berita
+[ 170,  86] Kelola artikel dan berita game di PLAYORA
+[ 181, 128] Q Cari judul berita..
+[ 641,  62] + Tarnbah
+[ 290, 173] Update
+[ 281, 216] Judul
+[ 285, 252] Ucxiate Genshin Impact 6.0:
+[ 427, 173] Tips & Panduan
+[ 211, 216] Ttwrnbnail
+[ 285, 266] Resn Apa Sain yang aaru?
+[ 285, 301] Review. Star Rai 3.2, Cerita
+[ 286, 315] Makin
+[ 285, 347] Tips Build Raiden Shogun
+[ 286, 361] W"tuk Meta Terbaru
+[ 286, 392] Turnamwn ML 3B Resmi Dige'ar
+[ 286, 404] November Ini
+[ 286, 433] update Valorant; Agent Baru
+[ 320, 446] Hadir
+[ 453, 303] •eve
+[ 458, 396] Eswts
+[ 504, 130] Semua Kateg«i
+[ 534, 173] Esports
+[ 537, 307] 5 Nov 2026
+[ 537, 353] 3 MN 2026
+[ 537, 397] 1 Nov 2026
+[ 537, 439] 30 OR 2026
+===== PLAYORA_Admin_Kelola Game.png =====
+[  51, 150] Dashboard
+[  51, 186] Kelola Game
+[  51, 221] Kelola Bereme
+[  51, 258] Kek'la Fengguna
+[  81, 293] pengguna
+[  88, 329] & Statistik
+[  51, 364] pengaturan
+[  63,  35] PLAYORA
+[ 170,  57] Kelola Game
+[ 170,  86] Kelola data game di platform PLAYORA
+[ 180, 128] Q Cari nama game...
+[ 261, 345] Minecraft
+[ 279, 173] PlayStation
+[ 261, 216] Nama Garne
+[ 260, 254] Genshin Impact
+[ 261, 388] Honkai: Star Rail
+[ 261, 429] Zenless Zero
+[ 367, 173] Xbox
+[ 209, 216] Cover
+[ 516, 216] Status
+[ 402, 347] Ccnx*
+[ 640,  62] + Tarnbah
+[ 630, 214] preview Game
+[ 630, 382] Genshin
+[ 630, 401] Impact
+[ 676, 427] n dunia
+===== PLAYORA_Admin_Kelola Komunitas.png =====
+[  61,  29] PLAYORA
+[  49, 145] Dashboard
+[  49, 180] Kelola Game
+[  49, 215] Kdda Turnantas
+[  49, 251] Keda Permuna
+[  95, 286] Statist,ik
+[  49, 320] Pengaturan
+[  49, 454] Keluat
+[ 168,  48] Kelola Komunitas
+[ 167,  75] Kelola aktlvitas dan konten komunitas di PLAYORA
+[ 200, 164] Cari postingan..,
+[ 214, 208] Penuis
+[ 379, 118] Tol* Diskusi
+[ 327, 237] Merwrut kalian, game RPG terbaik
+[ 326, 250] di 2026 ape?
+[ 326, 280] Ada yang maul HSR? Share
+[ 327, 293] build kalian!
+[ 327, 321] Rekomendasi game cryop
+[ 327, 337] seru buat mabar?
+[ 327, 363] Kenapa Valormt selalu
+[ 327, 376] lama ya?
+[ 349, 403] main MLBB biar naik rank!
+[ 484, 118] profil
+[ 514, 244] 7 Nov 2026
+[ 514, 285] 6 Nov 2026
+[ 514, 325] 5 Nov 2026
+[ 514, 364] 3 Nov 2026
+[ 514, 403] 1 Nov 2026
+[ 629, 163] Sernua Status
+===== PLAYORA_Admin_Kelola Pengguna.png =====
+[  72,  32] PLAYORA
+[  60, 105] Dashboard
+[  61, 144] Kelola Game
+[  61, 184] Kelola Berita
+[  61, 222] Kelola Turnamen
+[  61, 261] Kek* Pernguna
+[  61, 299] Lawan & Statistik
+[  61, 337] Pengaturan
+[  61, 494] Keluar
+[ 216,  29] Q Cari pengguna berdasarkan username, email
+[ 275,  88] Kelola Pengguna
+[ 275, 117] Kelola data pengguna dan atur peran mereka di platform PLAYORA,
+[ 282, 166] Total pengguna
+[ 282, 186] 48.763
+[ 211, 255] Pertumbuhan Pengguna
+[ 324, 481] 7 Nov
+[ 610, 166] Pengguna Aktif
+[ 610, 186] 42.510
+[ 925, 166] Admin
+[ 926, 186] 12
+[ 914, 258] Lihat Semua
+[ 941, 301] 2 jam
+[ 941, 346] 3 iam
+[ 941, 392] S iam Lalu
+[ 941, 437] 6 jam
+[ 949, 478] iam
+[1294, 166] Baru (Bulan Ini)
+[1243, 186] 8.924
+[1028, 255] Pengelolaan
+[1376, 102] + Tamt*
+[1430, 473] @ ÉI
+[ 413, 481] 14 Nov
+[ 454, 294] 20
+[ 454, 309] 24.8k Peng gma
+[ 506, 481] 21 Nov
+[ 558, 258] 30 Hsi
+[ 597, 481] 28 Nov
+[ 685, 255] Daftar Pengguna Terbaru
+[ 738, 292] mzkyGamer
+[ 738, 308] ribw@ema'l.corn
+[ 738, 340] game indo
+[ 738, 356] ga me com
+[ 738, 399] pixel@email.com
+[ 738, 429] ZennGame
+[ 738, 445] Zen* me corn
+[ 738, 486] garnerpro@email.com
+[1065, 291] Cari narna,
+[1071, 334] Peng-gwa
+[1073, 365] mzkyGamer
+[1074, 393] gameindo
+[1172, 393] gameindo@email.com
+[1172, 420] pix el@email.com
+[1172, 474] gamerpr*ernail.com
+===== PLAYORA_Admin_Kelola Turnament.png =====
+[ 172,  30] Q Cari t berd a nama _
+[ 215,  75] Kelola Turnamen
+[ 241,  95] in dan pmtau status
+[ 275, 132] Aktif
+[  79, 153] Beita
+[  54, 240] Lapxan Statist,k
+[  54, 428] Keluat
+[ 325, 132] Mondatang
+[ 353, 223] 2028
+[ 313, 263] XL 21
+[ 313, 297] 5-7 2026
+[ 313, 330] 10-12
+[ 313, 364] 18-20 2026
+[ 466, 132] Pengaiuan
+[ 456, 223] 1.2K
+[ 457, 263] 880
+[ 456, 297] 430
+[ 456, 364] 2.1K
+[ 512, 363] 4
+[ 588, 161] Info Pmdattaran
+[ 575, 185] Total Pendaftar
+[ 575, 205] 4.8K
+[ 575, 289] 2 Pengajuan
+[ 599, 379] ngw Pese
+===== PLAYORA_Admin_Laporan&Statistik.png =====
+[  60,  35] PLAYORA
+[  51, 432] Keluar
+[ 195,  35] Cari laporan atau periode .
+[ 210,  78] Statistik & Laporan
+[ 280,  98] pla tf da ta yang teßÆdia
+[ 208, 153] 842.5K
+[ 167, 210] Tren Ku-tjunga-*
+[ 214, 409] Lawan
+[ 363, 153] 520.3K
+[ 518, 153] 3m 24s
+[ 545, 211] Kmtm
+[ 658,  88] ao Terakhir
+[ 669, 153] 2.1M
+[ 622, 271] Gmshü' *npæt
+[ 622, 284] 4a2_lK
+[ 622, 310] Valorant
+[ 622, 349] Mowe L egends
+[ 622, 363] 280.3K
+[ 272, 426] delam POF
+[ 258, 438] Anos
+===== PLAYORA_Dashboard Admin.png =====
+[  72,  53] Admin Pane
+[  60, 160] Kelola Game
+[  60, 198] Kelola Berita
+[  60, 234] Kelola Turna men
+[  60, 271] Kelola Komunitas
+[  60, 309] Kelola Penqguna
+[  60, 346] Laporan Statistik
+[  60, 543] Keluar
+[ 190,  97] Dashboard
+[ 190, 124] Selamat datang, Admin!
+[ 205, 232] Total Game
+[ 206, 252] 1.248
+[ 275, 280] t 12%
+[ 201, 346] Aktivitas Platform
+[ 353, 232] Total Artikel
+[ 353, 252] 856
+[ 491, 232] Total Turnamen
+[ 492, 252] 128
+[ 687,  39] Adrnin v
+[ 624, 117] selasa4Nov2026
+[ 629, 232] Total pengguna
+[ 629, 252] 48.763
+[ 704, 280] 14%
+[ 334, 404] 24.8k pengunjung
+[ 559, 347] Aktivitas Terbaru
+[ 606, 388] user baru mendaftar
+[ 606, 403] 2 menit talu
+[ 606, 438] Artikel baru Update Genshin
+[ 606, 455] S menit
+[ 652, 487] baru Vabrant Cup
+[ 606, 503] IO mend talu
+[ 606, 536] Kornentar baru di forum
+[ 606, 552] 12 mend

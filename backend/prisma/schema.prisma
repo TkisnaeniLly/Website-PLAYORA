@@ -1,0 +1,558 @@
+// ============================================================================
+// SKEMA DATABASE PLAYORA — MVP
+// ============================================================================
+// Target database : MariaDB 10.4 (XAMPP) melalui konektor MySQL Prisma.
+// Batasan         : HANYA memakai fitur yang juga tersedia di MariaDB 10.4.
+//                   Tidak ada @@fulltext, tidak ada kolom JSON, tidak ada
+//                   generated column, tidak ada CHECK constraint deklaratif.
+//                   Validasi nilai dilakukan di lapisan aplikasi (Zod).
+//
+// Ruang lingkup   : 12 model sesuai 22 fitur MVP (PM-03 v1.1).
+//                   Komunitas (posts, comments) TIDAK termasuk — ditunda
+//                   sesuai keputusan pemilik proyek.
+//
+// Konvensi        : nama tabel & kolom snake_case di database (@map),
+//                   camelCase di Prisma. Semua PK berupa UUID CHAR(36).
+// ============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// ENUM
+// ---------------------------------------------------------------------------
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum GameStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum ArticleCategory {
+  NEWS
+  UPDATE
+  TIPS
+  TUTORIAL
+  ESPORTS
+}
+
+enum SubmissionStatus {
+  PENDING
+  NEEDS_REVISION
+  APPROVED
+  REJECTED
+}
+
+enum NotificationType {
+  SUBMISSION_CREATED
+  SUBMISSION_STATUS_CHANGED
+  SUBMISSION_APPROVED
+  SUBMISSION_REJECTED
+  SUBMISSION_NEEDS_REVISION
+  RESULT_APPROVED
+  RESULT_REJECTED
+  CHANGE_REQUEST_APPROVED
+  CHANGE_REQUEST_REJECTED
+  DISCORD_ROOM_APPROVED
+  DISCORD_ROOM_REJECTED
+}
+
+enum ResultStatus {
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum ResultAction {
+  SUBMITTED
+  APPROVED
+  REJECTED
+}
+
+// ---------------------------------------------------------------------------
+// 1. users — akun, autentikasi, profil, peran (MVP #15, #16, #20)
+// ---------------------------------------------------------------------------
+
+model User {
+  id           String   @id @default(uuid()) @db.Char(36)
+  name         String   @db.VarChar(100)
+  username     String   @unique @db.VarChar(50)
+  email        String   @unique @db.VarChar(255)
+  passwordHash String   @map("password_hash") @db.VarChar(255)
+  role         Role     @default(USER)
+  avatarUrl    String?  @map("avatar_url") @db.VarChar(500)
+  bio          String?  @db.Text
+  isActive     Boolean  @default(true) @map("is_active")
+  tokenVersion Int      @default(0) @map("token_version")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  articles             Article[]
+  submissions          TournamentSubmission[]   @relation("SubmissionAuthor")
+  reviewedSubmissions  TournamentSubmission[]   @relation("SubmissionReviewer")
+  reviews              TournamentReview[]
+  managedTournaments   Tournament[]             @relation("TournamentManager")
+  publishedTournaments Tournament[]             @relation("TournamentPublisher")
+  resultUpdates        TournamentResult[]
+  resultSubmissions    TournamentResult[]       @relation("ResultSubmitter")
+  resultReviews        TournamentResult[]       @relation("ResultReviewer")
+  resultReviewActions  TournamentResultReview[] @relation("ResultReviewActor")
+  favoriteGames        UserGame[]
+  bookmarks            Bookmark[]
+  notifications        Notification[]
+
+  changeRequests        TournamentChangeRequest[] @relation("ChangeRequestAuthor")
+  reviewedChangeRequests TournamentChangeRequest[] @relation("ChangeRequestReviewer")
+  communityPosts        CommunityPost[]
+  communityComments     CommunityComment[]
+  communityLikes        CommunityPostLike[]
+  discordRooms          DiscordRoom[]           @relation("DiscordRoomSubmitter")
+  reviewedDiscordRooms  DiscordRoom[]           @relation("DiscordRoomReviewer")
+
+  @@index([role])
+  @@map("users")
+}
+
+// ---------------------------------------------------------------------------
+// 2. games — katalog game (MVP #2, #3, #4)
+// ---------------------------------------------------------------------------
+
+model Game {
+  id            String     @id @default(uuid()) @db.Char(36)
+  title         String     @db.VarChar(200)
+  slug          String     @unique @db.VarChar(220)
+  description   String     @db.Text
+  genre         String     @db.VarChar(100)
+  developer     String?    @db.VarChar(150)
+  publisher     String?    @db.VarChar(150)
+  releaseDate   DateTime?  @map("release_date") @db.Date
+  coverImageUrl String?    @map("cover_image_url") @db.VarChar(500)
+  isPopular     Boolean    @default(false) @map("is_popular")
+  status        GameStatus @default(DRAFT)
+  createdAt     DateTime   @default(now()) @map("created_at")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
+
+  platforms   GamePlatform[]
+  articles    Article[]
+  submissions TournamentSubmission[]
+  tournaments Tournament[]
+  favoritedBy UserGame[]
+  discordRooms DiscordRoom[]
+
+  @@index([title])
+  @@index([genre])
+  @@index([isPopular])
+  @@index([status])
+  @@map("games")
+}
+
+// ---------------------------------------------------------------------------
+// 3. platforms — daftar platform (MVP #3 filter platform)
+// ---------------------------------------------------------------------------
+
+model Platform {
+  id        String   @id @default(uuid()) @db.Char(36)
+  name      String   @unique @db.VarChar(50)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  games GamePlatform[]
+
+  @@map("platforms")
+}
+
+// ---------------------------------------------------------------------------
+// 4. game_platforms — relasi banyak-ke-banyak game <-> platform (MVP #3)
+// ---------------------------------------------------------------------------
+
+model GamePlatform {
+  gameId     String @map("game_id") @db.Char(36)
+  platformId String @map("platform_id") @db.Char(36)
+
+  game     Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  platform Platform @relation(fields: [platformId], references: [id], onDelete: Cascade)
+
+  @@id([gameId, platformId])
+  @@index([platformId])
+  @@map("game_platforms")
+}
+
+// ---------------------------------------------------------------------------
+// 5. articles — berita & panduan (MVP #5, #6, #7, #18)
+// ---------------------------------------------------------------------------
+
+model Article {
+  id           String          @id @default(uuid()) @db.Char(36)
+  title        String          @db.VarChar(250)
+  slug         String          @unique @db.VarChar(270)
+  excerpt      String?         @db.VarChar(500)
+  content      String          @db.LongText
+  category     ArticleCategory
+  thumbnailUrl String?         @map("thumbnail_url") @db.VarChar(500)
+  status       ArticleStatus   @default(DRAFT)
+  publishedAt  DateTime?       @map("published_at")
+  authorId     String          @map("author_id") @db.Char(36)
+  gameId       String?         @map("game_id") @db.Char(36)
+  createdAt    DateTime        @default(now()) @map("created_at")
+  updatedAt    DateTime        @updatedAt @map("updated_at")
+
+  author    User       @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  game      Game?      @relation(fields: [gameId], references: [id], onDelete: SetNull)
+  bookmarks Bookmark[]
+
+  @@index([status, publishedAt])
+  @@index([category])
+  @@index([authorId])
+  @@index([gameId])
+  @@index([title])
+  @@map("articles")
+}
+
+// ---------------------------------------------------------------------------
+// 6. tournament_submissions — pengajuan turnamen (MVP #10)
+// ---------------------------------------------------------------------------
+
+model TournamentSubmission {
+  id                   String           @id @default(uuid()) @db.Char(36)
+  submittedBy          String           @map("submitted_by") @db.Char(36)
+  gameId               String           @map("game_id") @db.Char(36)
+  title                String           @db.VarChar(250)
+  organizerName        String           @map("organizer_name") @db.VarChar(150)
+  description          String           @db.Text
+  registrationUrl      String?          @map("registration_url") @db.VarChar(500)
+  contact              String?          @db.VarChar(200)
+  startDate            DateTime         @map("start_date") @db.Date
+  endDate              DateTime         @map("end_date") @db.Date
+  registrationDeadline DateTime?        @map("registration_deadline") @db.Date
+  format               String?          @db.VarChar(100)
+  teamCount            Int?             @map("team_count")
+  registrationMethod   String?          @map("registration_method") @db.VarChar(100)
+  prizePool            String?          @map("prize_pool") @db.VarChar(200)
+  requirements         String?          @db.Text
+  status               SubmissionStatus @default(PENDING)
+  adminNote            String?          @map("admin_note") @db.Text
+  submittedAt          DateTime         @default(now()) @map("submitted_at")
+  reviewedBy           String?          @map("reviewed_by") @db.Char(36)
+  reviewedAt           DateTime?        @map("reviewed_at")
+  createdAt            DateTime         @default(now()) @map("created_at")
+  updatedAt            DateTime         @updatedAt @map("updated_at")
+
+  submitter  User               @relation("SubmissionAuthor", fields: [submittedBy], references: [id], onDelete: Restrict)
+  reviewer   User?              @relation("SubmissionReviewer", fields: [reviewedBy], references: [id], onDelete: SetNull)
+  game       Game               @relation(fields: [gameId], references: [id], onDelete: Restrict)
+  reviews    TournamentReview[]
+  tournament Tournament?
+
+  @@index([status])
+  @@index([submittedBy])
+  @@index([gameId])
+  @@map("tournament_submissions")
+}
+
+// ---------------------------------------------------------------------------
+// 7. tournament_reviews — riwayat keputusan admin (MVP #11, audit trail)
+// ---------------------------------------------------------------------------
+
+model TournamentReview {
+  id           String           @id @default(uuid()) @db.Char(36)
+  submissionId String           @map("submission_id") @db.Char(36)
+  adminId      String           @map("admin_id") @db.Char(36)
+  decision     SubmissionStatus
+  note         String?          @db.Text
+  createdAt    DateTime         @default(now()) @map("created_at")
+
+  submission TournamentSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  admin      User                 @relation(fields: [adminId], references: [id], onDelete: Restrict)
+
+  @@index([submissionId, createdAt])
+  @@index([adminId])
+  @@map("tournament_reviews")
+}
+
+// ---------------------------------------------------------------------------
+// 8. tournaments — turnamen terpublikasi (MVP #8, #9, #12)
+// ---------------------------------------------------------------------------
+
+model Tournament {
+  id                   String    @id @default(uuid()) @db.Char(36)
+  submissionId         String?   @unique @map("submission_id") @db.Char(36)
+  gameId               String    @map("game_id") @db.Char(36)
+  managerId            String?   @map("manager_id") @db.Char(36)
+  title                String    @db.VarChar(250)
+  slug                 String    @unique @db.VarChar(270)
+  organizerName        String    @map("organizer_name") @db.VarChar(150)
+  description          String    @db.Text
+  registrationUrl      String?   @map("registration_url") @db.VarChar(500)
+  contact              String?   @db.VarChar(200)
+  startDate            DateTime  @map("start_date") @db.Date
+  endDate              DateTime  @map("end_date") @db.Date
+  registrationDeadline DateTime? @map("registration_deadline") @db.Date
+  format               String?   @db.VarChar(100)
+  teamCount            Int?      @map("team_count")
+  registrationMethod   String?   @map("registration_method") @db.VarChar(100)
+  prizePool            String?   @map("prize_pool") @db.VarChar(200)
+  requirements         String?   @db.Text
+  isPublished          Boolean   @default(false) @map("is_published")
+  publishedAt          DateTime? @map("published_at")
+  publishedBy          String?   @map("published_by") @db.Char(36)
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+
+  submission TournamentSubmission? @relation(fields: [submissionId], references: [id], onDelete: SetNull)
+  game       Game                  @relation(fields: [gameId], references: [id], onDelete: Restrict)
+  manager    User?                 @relation("TournamentManager", fields: [managerId], references: [id], onDelete: SetNull)
+  publisher  User?                 @relation("TournamentPublisher", fields: [publishedBy], references: [id], onDelete: SetNull)
+  results    TournamentResult[]
+  changeRequests TournamentChangeRequest[]
+
+  @@index([isPublished, startDate])
+  @@index([gameId])
+  @@index([managerId])
+  @@index([title])
+  @@map("tournaments")
+}
+
+// ---------------------------------------------------------------------------
+// 9. tournament_results — hasil turnamen (MVP #12)
+// ---------------------------------------------------------------------------
+
+model TournamentResult {
+  id           String       @id @default(uuid()) @db.Char(36)
+  tournamentId String       @map("tournament_id") @db.Char(36)
+  position     Int
+  teamOrPlayer String       @map("team_or_player") @db.VarChar(150)
+  note         String?      @db.VarChar(300)
+  status       ResultStatus @default(PENDING_REVIEW)
+  submittedBy  String?      @map("submitted_by") @db.Char(36)
+  reviewedBy   String?      @map("reviewed_by") @db.Char(36)
+  reviewedAt   DateTime?    @map("reviewed_at")
+  adminNote    String?      @map("admin_note") @db.Text
+  updatedBy    String?      @map("updated_by") @db.Char(36)
+  createdAt    DateTime     @default(now()) @map("created_at")
+  updatedAt    DateTime     @updatedAt @map("updated_at")
+
+  tournament Tournament               @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  updater    User?                    @relation(fields: [updatedBy], references: [id], onDelete: SetNull)
+  submitter  User?                    @relation("ResultSubmitter", fields: [submittedBy], references: [id], onDelete: SetNull)
+  reviewer   User?                    @relation("ResultReviewer", fields: [reviewedBy], references: [id], onDelete: SetNull)
+  reviews    TournamentResultReview[]
+
+  @@unique([tournamentId, position])
+  @@index([tournamentId, status])
+  @@map("tournament_results")
+}
+
+model TournamentResultReview {
+  id        String       @id @default(uuid()) @db.Char(36)
+  resultId  String       @map("result_id") @db.Char(36)
+  actorId   String?      @map("actor_id") @db.Char(36)
+  action    ResultAction
+  note      String?      @db.Text
+  createdAt DateTime     @default(now()) @map("created_at")
+
+  result TournamentResult @relation(fields: [resultId], references: [id], onDelete: Cascade)
+  actor  User?            @relation("ResultReviewActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([resultId, createdAt])
+  @@map("tournament_result_reviews")
+}
+
+// ---------------------------------------------------------------------------
+// 10. user_games — game favorit (MVP #17)
+// ---------------------------------------------------------------------------
+
+model UserGame {
+  id        String   @id @default(uuid()) @db.Char(36)
+  userId    String   @map("user_id") @db.Char(36)
+  gameId    String   @map("game_id") @db.Char(36)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, gameId])
+  @@index([gameId])
+  @@map("user_games")
+}
+
+// ---------------------------------------------------------------------------
+// 11. bookmarks — artikel tersimpan (MVP #18)
+// ---------------------------------------------------------------------------
+
+model Bookmark {
+  id        String   @id @default(uuid()) @db.Char(36)
+  userId    String   @map("user_id") @db.Char(36)
+  articleId String   @map("article_id") @db.Char(36)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, articleId])
+  @@index([articleId])
+  @@map("bookmarks")
+}
+
+// ---------------------------------------------------------------------------
+// 12. notifications — status pengajuan (MVP #19)
+// ---------------------------------------------------------------------------
+
+model Notification {
+  id          String           @id @default(uuid()) @db.Char(36)
+  userId      String           @map("user_id") @db.Char(36)
+  type        NotificationType
+  title       String           @db.VarChar(150)
+  message     String           @db.VarChar(500)
+  referenceId String?          @map("reference_id") @db.Char(36)
+  isRead      Boolean          @default(false) @map("is_read")
+  createdAt   DateTime         @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+
+// ---------------------------------------------------------------------------
+// 13. tournament_change_requests � permintaan perubahan info turnamen
+//     setelah pengajuan disetujui. Wajib ditinjau admin.
+// ---------------------------------------------------------------------------
+
+enum ChangeRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model TournamentChangeRequest {
+  id           String              @id @default(uuid()) @db.Char(36)
+  tournamentId String              @map("tournament_id") @db.Char(36)
+  requestedBy  String              @map("requested_by") @db.Char(36)
+  payload      String              @db.Text
+  message      String?             @db.Text
+  status       ChangeRequestStatus @default(PENDING)
+  reviewedBy   String?             @map("reviewed_by") @db.Char(36)
+  reviewedAt   DateTime?           @map("reviewed_at")
+  adminNote    String?             @map("admin_note") @db.Text
+  createdAt    DateTime            @default(now()) @map("created_at")
+  updatedAt    DateTime            @updatedAt @map("updated_at")
+
+  tournament Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  requester  User       @relation("ChangeRequestAuthor", fields: [requestedBy], references: [id], onDelete: Restrict)
+  reviewer   User?      @relation("ChangeRequestReviewer", fields: [reviewedBy], references: [id], onDelete: SetNull)
+
+  @@index([tournamentId, status])
+  @@index([status, createdAt])
+  @@map("tournament_change_requests")
+}
+
+// ---------------------------------------------------------------------------
+// 14-16. komunitas � postingan, komentar, dan suka
+// ---------------------------------------------------------------------------
+
+enum CommunityCategory {
+  DISKUSI
+  TIPS
+  TURNAMEN
+  REKOMENDASI
+  EVENT
+}
+
+model CommunityPost {
+  id        String            @id @default(uuid()) @db.Char(36)
+  authorId  String            @map("author_id") @db.Char(36)
+  title     String            @db.VarChar(200)
+  body      String            @db.Text
+  category  CommunityCategory @default(DISKUSI)
+  imageUrl  String?           @map("image_url") @db.VarChar(500)
+  isHidden  Boolean           @default(false) @map("is_hidden")
+  createdAt DateTime          @default(now()) @map("created_at")
+  updatedAt DateTime          @updatedAt @map("updated_at")
+
+  author   User                 @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments CommunityComment[]
+  likes    CommunityPostLike[]
+
+  @@index([isHidden, createdAt])
+  @@index([category])
+  @@map("community_posts")
+}
+
+model CommunityComment {
+  id        String   @id @default(uuid()) @db.Char(36)
+  postId    String   @map("post_id") @db.Char(36)
+  authorId  String   @map("author_id") @db.Char(36)
+  body      String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+
+  post   CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([postId, createdAt])
+  @@map("community_comments")
+}
+
+model CommunityPostLike {
+  postId    String   @map("post_id") @db.Char(36)
+  userId    String   @map("user_id") @db.Char(36)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  post CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([postId, userId])
+  @@index([userId])
+  @@map("community_post_likes")
+}
+
+// ---------------------------------------------------------------------------
+// 17. discord_rooms - direktori ruang Discord komunitas.
+//     Pengguna mengajukan; hanya ruang APPROVED yang tampil di halaman publik.
+// ---------------------------------------------------------------------------
+
+enum DiscordRoomStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model DiscordRoom {
+  id          String            @id @default(uuid()) @db.Char(36)
+  submittedBy String            @map("submitted_by") @db.Char(36)
+  name        String            @db.VarChar(150)
+  inviteUrl   String            @unique @map("invite_url") @db.VarChar(500)
+  description String            @db.Text
+  gameId      String?           @map("game_id") @db.Char(36)
+  memberCount Int?              @map("member_count")
+  status      DiscordRoomStatus @default(PENDING)
+  adminNote   String?           @map("admin_note") @db.Text
+  reviewedBy  String?           @map("reviewed_by") @db.Char(36)
+  reviewedAt  DateTime?         @map("reviewed_at")
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt @map("updated_at")
+
+  submitter User  @relation("DiscordRoomSubmitter", fields: [submittedBy], references: [id], onDelete: Cascade)
+  reviewer  User? @relation("DiscordRoomReviewer", fields: [reviewedBy], references: [id], onDelete: SetNull)
+  game      Game? @relation(fields: [gameId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([submittedBy])
+  @@index([gameId])
+  @@map("discord_rooms")
+}

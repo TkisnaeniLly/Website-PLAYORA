@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090a18">
+<title>PLAYORA — Jelajahi Game</title>
+<style>
+:root{
+  --bg:#090a17;--panel:#14152b;--panel2:#1b1b38;--line:#29284d;
+  --purple:#7138ff;--purple2:#9b4dff;--text:#f7f5ff;--muted:#b9b5d8;
+  --soft:#8d88b6;--gold:#ffbf36;--radius:20px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 75% 0%,#19103a 0,transparent 35%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{min-height:100vh}
+.sidebar{position:fixed;inset:0 auto 0 0;width:238px;padding:24px 17px 18px;background:linear-gradient(180deg,#12112a 0%,#17112f 75%,#24104c 100%);border-right:1px solid #282044;display:flex;flex-direction:column;z-index:10;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:12px;padding:0 13px 34px;font-size:23px;font-weight:900;letter-spacing:-.8px}
+.brand-mark{width:42px;height:35px;color:#783cff}
+.nav{display:grid;gap:7px}
+.nav button{border:0;background:transparent;color:#d0cbea;text-align:left;padding:13px 15px;border-radius:13px;display:flex;align-items:center;gap:15px;font-size:15px;transition:.2s}
+.nav button:hover{background:#29204d;color:white}
+.nav button.active{background:linear-gradient(100deg,#712cff,#3c168b);color:white;font-weight:700;box-shadow:0 8px 24px #5d25d544}
+.nav svg{width:22px;height:22px;flex:none}
+.community{margin:54px 2px 0;padding:19px 14px 17px;border:1px solid #803dff;border-radius:17px;text-align:center;background:linear-gradient(145deg,#31156d99,#17132e 75%);box-shadow:inset 0 0 30px #6a2aff16}
+.crown{font-size:28px;margin-bottom:5px}
+.community h3{font-size:16px;margin:4px 0 8px}
+.community p{color:#d1c9ed;font-size:13px;line-height:1.55;margin:0 0 15px}
+.primary{border:0;color:white;font-weight:700;background:linear-gradient(110deg,#7735ff,#6732f1);border-radius:12px;padding:12px 16px;box-shadow:0 7px 20px #6e35ff44;transition:.2s}
+.primary:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.community .primary{width:100%;font-size:13px}
+.socials{display:flex;justify-content:space-around;padding:23px 5px;color:#c9c1f2}
+.socials a{color:inherit;text-decoration:none;font-size:20px}
+.sidebar-art{margin-top:auto;height:90px;opacity:.65;position:relative;overflow:hidden}
+.sidebar-art:before,.sidebar-art:after{content:"";position:absolute;bottom:-65px;width:160px;height:150px;transform:rotate(45deg);border:1px solid #7138ff}
+.sidebar-art:before{left:-60px;background:linear-gradient(135deg,#5b21d8,#24104b)}
+.sidebar-art:after{left:65px;background:linear-gradient(135deg,#321071,#120d2c)}
+.main{margin-left:238px;min-height:100vh;padding:0 25px 45px}
+.topbar{height:82px;display:flex;align-items:center;gap:20px;position:sticky;top:0;z-index:8;background:#090a17df;backdrop-filter:blur(16px)}
+.search-wrap{height:51px;max-width:860px;flex:1;display:flex;align-items:center;gap:13px;padding:0 18px;border:1px solid #302b58;background:#19182f;border-radius:28px;box-shadow:inset 0 0 18px #5d45a012}
+.search-wrap svg{width:22px;color:#c5baff;flex:none}
+.search-wrap input{width:100%;border:0;outline:0;background:transparent;color:white;font-size:15px}
+.search-wrap input::placeholder{color:#c5bfdc}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:22px}
+.icon-btn{position:relative;border:0;background:transparent;color:#d5cff5;padding:7px}
+.icon-btn svg{width:25px;height:25px}
+.notif-dot{position:absolute;right:-2px;top:-4px;background:#ff245d;color:#fff;border-radius:50%;width:23px;height:23px;font-size:12px;font-weight:800;display:grid;place-items:center}
+.avatar{width:45px;height:45px;border-radius:50%;border:2px solid #7f5cff;background:linear-gradient(135deg,#ffc3dd,#7048b8);display:grid;place-items:center;font-size:25px;overflow:hidden}
+.profile-wrap{position:relative;display:flex;align-items:center;gap:8px}
+.profile-menu,.notif-menu{display:none;position:absolute;right:0;top:57px;width:190px;padding:9px;background:#1b1934;border:1px solid #39305f;border-radius:14px;box-shadow:0 16px 40px #0008}
+.profile-menu.show,.notif-menu.show{display:block}
+.profile-menu button,.notif-menu button{width:100%;padding:10px;border:0;border-radius:8px;background:transparent;color:#eee;text-align:left}
+.profile-menu button:hover,.notif-menu button:hover{background:#30235a}
+.hero{height:300px;border-radius:18px;overflow:hidden;position:relative;margin:8px 0 27px;background:linear-gradient(90deg,#160d3b 0%,#27105b 43%,#32105b 100%);isolation:isolate}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#1a0c43 0%,#1b1049e8 34%,#1b104955 70%,#140d30aa 100%),url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1800&q=85") center/cover;opacity:.88;z-index:-2}
+.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 75% 50%,#a447ff55,transparent 32%),linear-gradient(0deg,#160b3b55,transparent 60%);z-index:-1}
+.hero-content{padding:27px 7%;max-width:620px;height:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.eyebrow{background:#7434fa;color:#fff;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:800;margin-bottom:12px}
+.hero h1{font-size:clamp(27px,3vw,38px);line-height:1.13;letter-spacing:-1.2px;margin:0 0 12px;max-width:520px}
+.hero p{font-size:17px;line-height:1.45;color:#f0eaff;margin:0 0 18px;max-width:430px}
+.hero .primary{padding:13px 25px}
+.hero-arrow{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border:0;border-radius:50%;background:#100d2cbf;color:#fff;font-size:30px;display:grid;place-items:center}
+.hero-arrow.left{left:18px}.hero-arrow.right{right:18px}
+.dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:9px}
+.dots button{width:11px;height:11px;border:0;border-radius:20px;background:#aaa0d4;padding:0}
+.dots button.active{width:27px;background:#813aff}
+.toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 23px}
+.chip{border:1px solid #292747;background:#15152b;color:#eee9ff;border-radius:30px;padding:12px 17px;display:flex;align-items:center;gap:10px;font-size:14px;white-space:nowrap;transition:.2s}
+.chip svg{width:20px;height:20px}
+.chip:hover{border-color:#7945ff}
+.chip.active{background:linear-gradient(110deg,#7735ff,#6330e8);border-color:transparent;color:#fff;box-shadow:0 7px 20px #7138ff40}
+.select-wrap{position:relative}
+.select-wrap select{appearance:none;border:1px solid #302c52;background:#17162d;color:#eee9ff;border-radius:30px;padding:12px 39px 12px 17px;outline:0;cursor:pointer;font-size:14px}
+.select-wrap:after{content:"⌄";position:absolute;right:15px;top:7px;font-size:22px;pointer-events:none;color:#cfc7f4}
+.toolbar-spacer{flex:1}
+.divider-v{height:34px;width:1px;background:#49416f;margin:0 5px}
+.game-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px}
+.game-card{min-width:0;border:1px solid #292747;border-radius:19px;overflow:hidden;background:linear-gradient(180deg,#1b1a36,#151529);transition:transform .2s,border-color .2s,box-shadow .2s}
+.game-card:hover{transform:translateY(-5px);border-color:#7143d9;box-shadow:0 14px 30px #0005}
+.cover{height:137px;position:relative;background:#28204b;overflow:hidden}
+.cover img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.game-card:hover .cover img{transform:scale(1.06)}
+.cover:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,#15152988)}
+.bookmark{position:absolute;right:9px;top:9px;width:33px;height:33px;border:1px solid #ffffff44;border-radius:9px;background:#17142cbb;color:white;display:grid;place-items:center;z-index:1}
+.bookmark svg{width:19px;height:19px}
+.bookmark.saved{color:#ffcc57;background:#33234b}
+.game-info{padding:11px 12px 12px}
+.game-title{font-size:15px;font-weight:750;line-height:1.25;min-height:38px;margin:0 0 7px;letter-spacing:-.3px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tag{font-size:11px;padding:5px 8px;border-radius:20px;background:#292448;color:#f0eaff;white-space:nowrap}
+.rating{font-size:12px;color:#e3def6;display:flex;align-items:center;gap:5px}
+.rating .star{color:var(--gold);font-size:18px;line-height:1}
+.rating .reviews{color:#c2bdd8;margin-left:6px}
+.empty{grid-column:1/-1;text-align:center;padding:55px 20px;border:1px dashed #45406b;border-radius:18px;color:#c5bfdf}
+.empty strong{display:block;color:white;font-size:19px;margin-bottom:8px}
+.results-line{color:#9f99bf;font-size:13px;margin:-10px 0 14px}
+.toast{position:fixed;right:22px;bottom:22px;background:#211b42;border:1px solid #7041d9;color:white;padding:13px 18px;border-radius:12px;box-shadow:0 10px 35px #0008;opacity:0;transform:translateY(12px);transition:.25s;z-index:30;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+.mobile-menu{display:none}
+@media(max-width:1250px){.game-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.sidebar{width:215px}.main{margin-left:215px}}
+@media(max-width:980px){.game-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.sidebar{width:190px;padding-inline:12px}.main{margin-left:190px;padding-inline:18px}.brand{font-size:20px}.hero{height:280px}}
+@media(max-width:720px){
+ .sidebar{width:260px;transform:translateX(-105%);transition:transform .25s;box-shadow:15px 0 40px #0008}.sidebar.open{transform:translateX(0)}
+ .main{margin-left:0;padding:0 14px 30px}.topbar{height:70px;gap:10px}.mobile-menu{display:block;border:0;background:transparent;color:white;font-size:25px}
+ .search-wrap{height:44px;padding:0 12px}.search-wrap input{font-size:13px}.top-actions{gap:9px}.avatar{width:38px;height:38px}
+ .hero{height:280px;margin-top:5px}.hero-content{padding:24px 9%;max-width:90%}.hero h1{font-size:28px}.hero p{font-size:14px}
+ .hero-arrow{width:35px;height:35px;font-size:24px}.hero-arrow.left{left:8px}.hero-arrow.right{right:8px}
+ .toolbar{gap:8px}.chip{padding:10px 12px;font-size:12px}.chip svg{width:17px}.divider-v{display:none}.toolbar-spacer{display:none}
+ .select-wrap select{padding:10px 33px 10px 13px;font-size:12px}
+ .game-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.cover{height:120px}.game-info{padding:10px}.game-title{font-size:13px;min-height:34px}.tag{font-size:10px}
+}
+@media(max-width:390px){.game-grid{grid-template-columns:1fr 1fr;gap:9px}.cover{height:100px}.game-info{padding:8px}.game-title{font-size:12px}.reviews{display:none}.hero h1{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 64 48" fill="currentColor" aria-hidden="true"><path d="M15 5h34c7 0 10 5 12 13l3 16c1 7-6 11-12 7L40 31H24L12 41C6 45-1 41 0 34l3-16C5 10 8 5 15 5Z"/><path d="M17 14v14M10 21h14" stroke="#211044" stroke-width="4" stroke-linecap="round"/><circle cx="47" cy="19" r="3" fill="#211044"/><circle cx="54" cy="26" r="3" fill="#211044"/></svg>
+    PLAYORA
+  </div>
+  <nav class="nav" aria-label="Navigasi utama">
+    <button data-nav="Beranda"><span>⌂</span> Beranda</button>
+    <button class="active" data-nav="Jelajahi Game"><span>🎮</span> Jelajahi Game</button>
+    <button data-nav="Berita"><span>▤</span> Berita</button>
+    <button data-nav="Turnamen"><span>🏆</span> Turnamen</button>
+    <button data-nav="Komunitas"><span>♟</span> Komunitas</button>
+    <button data-nav="Profil"><span>♙</span> Profil</button>
+  </nav>
+  <section class="community">
+    <div class="crown">👑</div><h3>Join Komunitas PLAYORA!</h3>
+    <p>Diskusi, berbagi tips, dan temukan teman sesama gamer.</p>
+    <button class="primary" id="joinBtn">Gabung Sekarang →</button>
+  </section>
+  <div class="socials"><a href="#" aria-label="Discord">◉</a><a href="#" aria-label="YouTube">▶</a><a href="#" aria-label="Instagram">◎</a><a href="#" aria-label="X">𝕏</a></div>
+  <div class="sidebar-art"></div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <button class="mobile-menu" id="menuBtn" aria-label="Buka menu">☰</button>
+    <label class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="10.8" cy="10.8" r="7.3"/><path d="m16.2 16.2 5 5"/></svg>
+      <input id="searchInput" type="search" placeholder="Cari game, genre, atau judul..." autocomplete="off">
+    </label>
+    <div class="top-actions">
+      <div style="position:relative">
+        <button class="icon-btn" id="notifBtn" aria-label="Notifikasi">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span class="notif-dot" id="notifCount">2</span>
+        </button>
+        <div class="notif-menu" id="notifMenu"><button>🎮 Ada game baru untuk dijelajahi!</button><button>🏆 Turnamen mingguan segera dimulai.</button></div>
+      </div>
+      <div class="profile-wrap">
+        <button class="icon-btn" id="profileBtn" aria-label="Menu profil"><span class="avatar">👩🏻‍🎤</span></button><span style="color:#cfc8ed">⌄</span>
+        <div class="profile-menu" id="profileMenu"><button>👤 Profil Saya</button><button>⚙️ Pengaturan</button><button id="logoutBtn">↪ Keluar</button></div>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" aria-label="Game pilihan">
+    <div class="hero-content">
+      <span class="eyebrow" id="heroEyebrow">JELAJAHI GAME</span>
+      <h1 id="heroTitle">Temukan Game Favoritmu di PLAYORA!</h1>
+      <p id="heroText">Dari game populer hingga hidden gem, semua ada di sini.</p>
+      <button class="primary" id="heroCta">Mulai Jelajahi&nbsp; →</button>
+    </div>
+    <button class="hero-arrow left" id="prevSlide" aria-label="Slide sebelumnya">‹</button>
+    <button class="hero-arrow right" id="nextSlide" aria-label="Slide berikutnya">›</button>
+    <div class="dots" id="dots"></div>
+  </section>
+
+  <section class="toolbar" aria-label="Filter game">
+    <button class="chip active platform" data-platform="Semua">▦　Semua</button>
+    <button class="chip platform" data-platform="Mobile">▯　Mobile</button>
+    <button class="chip platform" data-platform="PC">▣　PC</button>
+    <button class="chip platform" data-platform="PlayStation">♧　PlayStation</button>
+    <button class="chip platform" data-platform="Xbox">✕　Xbox</button>
+    <span class="divider-v"></span>
+    <label class="select-wrap"><select id="genreSelect" aria-label="Filter genre"><option value="Semua">Genre</option><option>RPG</option><option>Action</option><option>Adventure</option><option>FPS</option><option>MOBA</option><option>Simulation</option><option>Sports</option><option>Survival</option></select></label>
+    <span class="toolbar-spacer"></span>
+    <label class="select-wrap"><select id="sortSelect" aria-label="Urutkan game"><option value="popular">Urutkan: Populer</option><option value="rating">Rating tertinggi</option><option value="az">Nama: A–Z</option></select></label>
+    <button class="chip" id="savedOnly" title="Tampilkan game tersimpan">♡　Favorit</button>
+  </section>
+  <p class="results-line" id="resultsLine">Menampilkan semua game pilihan</p>
+  <section class="game-grid" id="gameGrid" aria-live="polite"></section>
+</main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const games = [
+ {id:1,name:"Genshin Impact",genres:["RPG","Open World"],rating:4.8,reviews:"1.2M ulasan",pop:98,platforms:["Mobile","PC","PlayStation"],img:"https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=800&q=85"},
+ {id:2,name:"Valorant",genres:["FPS","Shooter"],rating:4.7,reviews:"975K ulasan",pop:96,platforms:["PC"],img:"https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=85"},
+ {id:3,name:"Mobile Legends: Bang Bang",genres:["MOBA","Multiplayer"],rating:4.6,reviews:"3.1M ulasan",pop:95,platforms:["Mobile"],img:"https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=800&q=85"},
+ {id:4,name:"Minecraft",genres:["Survival","Sandbox"],rating:4.7,reviews:"2.8M ulasan",pop:94,platforms:["Mobile","PC","PlayStation","Xbox"],img:"https://images.unsplash.com/photo-1607513746994-51f730a44832?auto=format&fit=crop&w=800&q=85"},
+ {id:5,name:"Honkai: Star Rail",genres:["RPG","Turn-Based"],rating:4.7,reviews:"892K ulasan",pop:91,platforms:["Mobile","PC","PlayStation"],img:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=85"},
+ {id:6,name:"League of Legends",genres:["MOBA","Strategy"],rating:4.5,reviews:"1.3M ulasan",pop:90,platforms:["PC"],img:"https://images.unsplash.com/photo-1547394765-185e1e68f34e?auto=format&fit=crop&w=800&q=85"},
+ {id:7,name:"The Legend of Zelda: Tears of the Kingdom",genres:["Action","Adventure"],rating:4.9,reviews:"1.1M ulasan",pop:89,platforms:["Nintendo Switch"],img:"https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=800&q=85"},
+ {id:8,name:"Red Dead Redemption 2",genres:["Action","Adventure"],rating:4.8,reviews:"1.4M ulasan",pop:88,platforms:["PC","PlayStation","Xbox"],img:"https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=85"},
+ {id:9,name:"Stardew Valley",genres:["Simulation","RPG"],rating:4.7,reviews:"936K ulasan",pop:85,platforms:["Mobile","PC","PlayStation","Xbox"],img:"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=85"},
+ {id:10,name:"EA SPORTS FC 25",genres:["Sports","Simulation"],rating:4.6,reviews:"1.1M ulasan",pop:83,platforms:["PC","PlayStation","Xbox"],img:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=800&q=85"}
+];
+const slides=[
+ {tag:"JELAJAHI GAME",title:"Temukan Game Favoritmu di PLAYORA!",text:"Dari game populer hingga hidden gem, semua ada di sini.",button:"Mulai Jelajahi"},
+ {tag:"MAIN BARENG",title:"Petualangan Lebih Seru Bersama Teman!",text:"Temukan komunitas, bentuk tim, dan mulai petualanganmu.",button:"Temukan Komunitas"},
+ {tag:"TANTANG DIRIMU",title:"Saatnya Tunjukkan Skill Terbaikmu!",text:"Ikuti turnamen dan jadilah bagian dari pemain terbaik.",button:"Lihat Turnamen"},
+ {tag:"UPDATE TERBARU",title:"Selalu Terhubung dengan Dunia Gaming!",text:"Jelajahi pilihan game dan temukan keseruan baru setiap hari.",button:"Lihat Game"}
+];
+let slideIndex=0, selectedPlatform="Semua", saved=new Set(JSON.parse(localStorage.getItem("playoraSaved")||"[]")), favoritesOnly=false;
+const $=s=>document.querySelector(s);
+function toast(message){const el=$("#toast");el.textContent=message;el.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.remove("show"),2400)}
+function render(){
+ const query=$("#searchInput").value.trim().toLowerCase(),genre=$("#genreSelect").value,sort=$("#sortSelect").value;
+ let list=games.filter(g=>(selectedPlatform==="Semua"||g.platforms.includes(selectedPlatform))&&(genre==="Semua"||g.genres.includes(genre))&&(!favoritesOnly||saved.has(g.id))&&(!query||(g.name+" "+g.genres.join(" ")+" "+g.platforms.join(" ")).toLowerCase().includes(query)));
+ if(sort==="rating")list.sort((a,b)=>b.rating-a.rating);else if(sort==="az")list.sort((a,b)=>a.name.localeCompare(b.name));else list.sort((a,b)=>b.pop-a.pop);
+ $("#resultsLine").textContent=`Menampilkan ${list.length} dari ${games.length} game${favoritesOnly?" · Favorit":""}`;
+ $("#gameGrid").innerHTML=list.length?list.map(g=>`
+ <article class="game-card">
+  <div class="cover"><img src="${g.img}" alt="Ilustrasi ${g.name}" loading="lazy" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#432080,#16142f)'">
+   <button class="bookmark ${saved.has(g.id)?"saved":""}" data-save="${g.id}" aria-label="${saved.has(g.id)?"Hapus dari":"Simpan"} favorit">${saved.has(g.id)?"♥":"♧"}</button>
+  </div>
+  <div class="game-info"><h2 class="game-title">${g.name}</h2><div class="tags">${g.genres.slice(0,2).map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+  <div class="rating"><span class="star">★</span><strong>${g.rating.toFixed(1)}</strong><span class="reviews">(${g.reviews})</span></div></div>
+ </article>`).join(""):`<div class="empty"><strong>Game tidak ditemukan</strong>Coba kata kunci atau filter yang berbeda.</div>`;
+}
+function showSlide(i){slideIndex=(i+slides.length)%slides.length;const s=slides[slideIndex];$("#heroEyebrow").textContent=s.tag;$("#heroTitle").textContent=s.title;$("#heroText").textContent=s.text;$("#heroCta").textContent=s.button+" →";$("#dots").innerHTML=slides.map((_,n)=>`<button class="${n===slideIndex?"active":""}" data-slide="${n}" aria-label="Slide ${n+1}"></button>`).join("");}
+$("#gameGrid").addEventListener("click",e=>{const b=e.target.closest("[data-save]");if(!b)return;const id=Number(b.dataset.save);saved.has(id)?saved.delete(id):saved.add(id);localStorage.setItem("playoraSaved",JSON.stringify([...saved]));render();toast(saved.has(id)?"Game ditambahkan ke favorit":"Game dihapus dari favorit")});
+$("#searchInput").addEventListener("input",render);
+$("#genreSelect").addEventListener("change",render);
+$("#sortSelect").addEventListener("change",render);
+document.querySelectorAll(".platform").forEach(b=>b.addEventListener("click",()=>{selectedPlatform=b.dataset.platform;document.querySelectorAll(".platform").forEach(x=>x.classList.toggle("active",x===b));render()}));
+$("#savedOnly").addEventListener("click",()=>{favoritesOnly=!favoritesOnly;$("#savedOnly").classList.toggle("active",favoritesOnly);render()});
+$("#prevSlide").addEventListener("click",()=>showSlide(slideIndex-1));
+$("#nextSlide").addEventListener("click",()=>showSlide(slideIndex+1));
+$("#dots").addEventListener("click",e=>{if(e.target.dataset.slide!==undefined)showSlide(Number(e.target.dataset.slide))});
+$("#heroCta").addEventListener("click",()=>{document.querySelector(".toolbar").scrollIntoView({behavior:"smooth"});toast("Pilih game favoritmu!")});
+$("#joinBtn").addEventListener("click",()=>toast("Fitur komunitas akan segera hadir!"));
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");if(b.dataset.nav!=="Jelajahi Game")toast(`Halaman ${b.dataset.nav} sedang disiapkan`);else window.scrollTo({top:0,behavior:"smooth"})}));
+$("#notifBtn").addEventListener("click",()=>{$("#notifMenu").classList.toggle("show");$("#profileMenu").classList.remove("show");$("#notifCount").style.display="none"});
+$("#profileBtn").addEventListener("click",()=>{$("#profileMenu").classList.toggle("show");$("#notifMenu").classList.remove("show")});
+$("#logoutBtn").addEventListener("click",()=>{toast("Kamu telah keluar (demo)");$("#profileMenu").classList.remove("show")});
+$("#menuBtn").addEventListener("click",()=>$("#sidebar").classList.toggle("open"));
+document.addEventListener("click",e=>{if(!e.target.closest(".profile-wrap"))$("#profileMenu").classList.remove("show");if(!e.target.closest("#notifBtn")&&!e.target.closest("#notifMenu"))$("#notifMenu").classList.remove("show");if(!e.target.closest("#sidebar")&&!e.target.closest("#menuBtn"))$("#sidebar").classList.remove("open")});
+showSlide(0);render();
+</script>
+</body>
+</html>

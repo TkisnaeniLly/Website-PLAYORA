@@ -1,0 +1,42 @@
+# Dependensi
+node_modules/
+.pnp
+.pnp.js
+
+# Build
+dist/
+dist-ssr/
+build/
+*.tsbuildinfo
+
+# Environment (JANGAN pernah commit)
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Log
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# Prisma
+backend/prisma/*.db
+backend/prisma/*.db-journal
+
+# Alat agen (state lokal, bukan sumber proyek)
+.omo/
+.codegraph/
+
+# Upload lokal sementara
+uploads/

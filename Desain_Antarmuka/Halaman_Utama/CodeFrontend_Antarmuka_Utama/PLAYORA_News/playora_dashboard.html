@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLAYORA — Berita Gaming</title>
+<style>
+:root{--bg:#090b16;--panel:#141629;--panel2:#1b1c35;--purple:#762cff;--purple2:#a12cff;--text:#f7f5ff;--muted:#b9b6d7;--line:#292746}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 10%,#211344 0,transparent 34%),var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;min-height:100vh}
+button,input{font:inherit}button{cursor:pointer;color:inherit}.app{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100vh}
+.sidebar{background:linear-gradient(180deg,#17162d,#111326);padding:25px 16px 22px;display:flex;flex-direction:column;border-right:1px solid #24213d;position:sticky;top:0;height:100vh}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:24px;letter-spacing:-1px;padding:0 14px 42px}.brand-mark{font-size:36px;color:#8c42ff;line-height:1}
+.nav{display:grid;gap:7px}.nav button{border:0;background:transparent;text-align:left;padding:14px 16px;border-radius:12px;color:#d5d1f0;display:flex;align-items:center;gap:14px;font-size:16px;transition:.2s}.nav button .ico{font-size:21px;width:22px;text-align:center}.nav button:hover,.nav button.active{background:linear-gradient(100deg,#6320dc,#32186c);color:white}.nav button.active{box-shadow:inset 3px 0 #b02cff;font-weight:700}
+.join{margin-top:auto;border:1px solid #6425c8;border-radius:17px;padding:18px 14px;text-align:center;background:linear-gradient(145deg,#28124c,#15152b)}.join .crown{font-size:34px}.join h3{margin:7px 0;font-size:18px}.join p{color:#d4cfee;line-height:1.5;margin:7px 0 16px}.primary{border:0;border-radius:11px;background:linear-gradient(100deg,#872cff,#6425ef);padding:12px 16px;font-weight:700;color:#fff;box-shadow:0 5px 18px #6b2be455}.socials{display:flex;justify-content:space-around;margin:24px 0 2px;color:#c8c2f3;font-size:21px}
+main{min-width:0;padding:18px 24px 38px 28px}.topbar{height:52px;display:flex;align-items:center;gap:22px;margin-bottom:26px}.search{height:50px;max-width:865px;flex:1;border:1px solid #302c50;border-radius:30px;background:#1a1a32;display:flex;align-items:center;padding:0 20px;gap:13px}.search span{font-size:25px;color:#c8baff}.search input{background:transparent;border:0;outline:0;color:white;width:100%;font-size:15px}.search input::placeholder{color:#c5c0df}.top-actions{margin-left:auto;display:flex;align-items:center;gap:24px;position:relative}.top-actions button{border:0;background:transparent;font-size:22px}.notification{position:relative}.notification b{position:absolute;top:-9px;right:-8px;background:#f32862;border-radius:50%;font-size:12px;padding:4px 7px}.avatar{width:43px;height:43px;border-radius:50%;background:linear-gradient(135deg,#f4b7d4,#5e3ab1);display:grid;place-items:center;border:2px solid #6d4da9;font-size:24px}
+.heading{display:flex;justify-content:space-between;align-items:center;margin:0 0 20px}.heading-left{display:flex;gap:16px;align-items:flex-start}.accent{width:10px;height:50px;border-radius:8px;background:linear-gradient(#d52eff,#6428ff);margin-top:2px}.heading h1{font-size:38px;margin:0 0 2px;letter-spacing:-1px}.heading p{margin:0;color:#d0cbe9;font-size:17px}.outline{border:1px solid #8b36ff;background:transparent;border-radius:12px;padding:12px 17px;color:#eee;font-size:14px}.filters{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}.chip{border:0;border-radius:22px;background:#17182c;color:#dedaf4;padding:10px 18px;display:flex;align-items:center;gap:8px}.chip.active{background:linear-gradient(100deg,#872bff,#5b25dc);color:white;font-weight:700}
+.content{display:grid;grid-template-columns:minmax(0,2.1fr) minmax(320px,1.05fr);gap:28px}.hero{height:410px;border-radius:16px;overflow:hidden;position:relative;border:1px solid #30254f;background:linear-gradient(110deg,#253d7b,#44236c 48%,#10162e)}.hero-art{position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,12,27,.9) 0%,rgba(9,12,27,.48) 48%,rgba(9,12,27,.08) 100%),url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1500&q=85') center/cover;filter:saturate(1.2)}.hero:after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(7,9,19,.9));pointer-events:none}.hero-content{position:absolute;z-index:1;left:24px;bottom:25px;max-width:65%}.tag{display:inline-block;background:#7528ed;border-radius:7px;padding:6px 11px;font-size:13px;font-weight:700;margin-bottom:14px}.hero h2{font-size:29px;line-height:1.18;margin:0 0 10px;letter-spacing:-.5px}.hero p{font-size:16px;line-height:1.45;margin:0 0 18px;color:#f0edff}.meta{display:flex;gap:22px;color:#e4e0fa;font-size:14px;flex-wrap:wrap}.read{position:absolute;right:20px;bottom:22px;z-index:2;border:1px solid #8a39ff;background:#15132bce;padding:10px 17px;border-radius:12px;font-weight:700}.dots{position:absolute;z-index:2;bottom:17px;left:50%;display:flex;gap:10px}.dots i{width:10px;height:10px;border-radius:50%;background:#8f8ba8}.dots i.active{width:24px;border-radius:8px;background:#792aff}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:23px 0 14px}.section-title h2{font-size:21px;margin:0;display:flex;align-items:center;gap:10px}.section-title h2:before{content:"";width:8px;height:26px;border-radius:8px;background:linear-gradient(#df2eff,#652aff)}.text-link{border:0;background:transparent;color:#a34cff;font-weight:700}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.news-card{background:#17182b;border:1px solid #282642;border-radius:14px;overflow:hidden;min-width:0;transition:.2s}.news-card:hover{transform:translateY(-4px);border-color:#6931bd}.thumb{height:142px;position:relative;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;font-size:52px}.thumb:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent,rgba(7,8,18,.4))}.thumb .tag{position:absolute;z-index:1;bottom:8px;left:12px;margin:0}.bookmark{position:absolute;right:10px;top:10px;z-index:2;border:0;border-radius:8px;background:#111426aa;padding:6px 9px;font-size:18px}.bookmark.saved{color:#d34cff}.card-body{padding:13px 14px 15px}.card-body h3{font-size:16px;line-height:1.35;margin:0 0 16px;min-height:43px}.card-body .meta{font-size:13px;gap:15px;color:#c9c4e6}
+.right-col{min-width:0}.popular{background:#17182b;border:1px solid #24233e;border-radius:16px;padding:16px 15px}.popular-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.popular-head h2{font-size:20px;margin:0}.popular-item{display:grid;grid-template-columns:28px 92px minmax(0,1fr);gap:12px;align-items:center;margin:0 0 13px}.popular-item:last-child{margin-bottom:0}.rank{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#6e2be8;font-weight:800}.popular-img{width:92px;height:67px;border-radius:10px;background-size:cover;background-position:center}.popular-info h3{font-size:14px;line-height:1.25;margin:0 0 7px}.popular-info .meta{font-size:12px;gap:12px;color:#c9c4e6}
+.newsletter{margin-top:18px;border:1px solid #6725c4;border-radius:16px;padding:19px;background:linear-gradient(140deg,#30105c,#17152e);position:relative;overflow:hidden}.newsletter:after{content:"🎮";position:absolute;right:10px;top:12px;font-size:64px;opacity:.24;transform:rotate(-15deg)}.mail{font-size:39px}.newsletter h2{font-size:19px;line-height:1.25;margin:5px 0 9px;max-width:80%}.newsletter p{color:#d2c9ee;line-height:1.4;margin:0 0 15px;font-size:14px}.subscribe{display:flex;position:relative;z-index:1}.subscribe input{min-width:0;flex:1;background:#211b42;border:1px solid #6d42a8;border-right:0;border-radius:11px 0 0 11px;padding:12px;color:white;outline:none;font-size:13px}.subscribe button{border:0;background:#7029ed;color:white;padding:0 15px;border-radius:0 11px 11px 0;font-weight:700;font-size:13px}.message{font-size:12px;margin-top:9px;min-height:16px;color:#c8ffdb}
+.dropdown{display:none;position:absolute;right:0;top:45px;z-index:10;background:#211d3b;border:1px solid #55348b;border-radius:12px;padding:12px;min-width:190px;box-shadow:0 12px 30px #0008}.dropdown.show{display:block}.dropdown button{display:block;width:100%;text-align:left;font-size:14px;padding:9px;border-radius:7px}.dropdown button:hover{background:#493078}
+.modal{display:none;position:fixed;inset:0;background:#050611d9;z-index:30;align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}.modal-box{max-width:560px;width:100%;background:#19182f;border:1px solid #6a39ad;border-radius:18px;padding:25px;box-shadow:0 20px 60px #000a}.modal-box h2{margin:0 0 10px}.modal-box p{color:#d0cbe9;line-height:1.6}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}.toast{position:fixed;bottom:22px;right:22px;background:#241746;border:1px solid #7939c7;padding:13px 18px;border-radius:12px;display:none;z-index:40}.toast.show{display:block}
+@media(max-width:1100px){.app{grid-template-columns:205px 1fr}.content{grid-template-columns:1fr}.right-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}.newsletter{margin-top:0}.hero{height:390px}}
+@media(max-width:760px){.app{display:block}.sidebar{position:relative;height:auto;padding:14px;display:block}.brand{padding:0 5px 12px}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap;padding:10px 12px}.join,.socials{display:none}main{padding:16px}.topbar{margin-bottom:20px}.heading{align-items:flex-start;gap:12px}.heading h1{font-size:30px}.heading p{font-size:14px}.heading .outline{white-space:nowrap;padding:10px;font-size:12px}.content{display:block}.hero{height:430px}.hero-content{max-width:90%;left:17px;bottom:60px}.hero h2{font-size:24px}.hero p{font-size:14px}.read{bottom:14px;right:14px;font-size:12px}.dots{left:18px;bottom:20px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.right-col{display:block;margin-top:22px}.newsletter{margin-top:16px}}
+@media(max-width:480px){.cards{grid-template-columns:1fr}.thumb{height:175px}.popular-item{grid-template-columns:26px 78px 1fr;gap:9px}.popular-img{width:78px}.hero{height:470px}.hero-content{bottom:65px}.hero h2{font-size:22px}.filters{gap:7px}.chip{padding:9px 12px;font-size:13px}.top-actions{gap:13px}.search{padding:0 13px}.search input{font-size:13px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><span class="brand-mark">🎮</span> PLAYORA</div>
+  <nav class="nav" aria-label="Navigasi utama">
+    <button data-page="Beranda"><span class="ico">⌂</span>Beranda</button>
+    <button data-page="Jelajahi Game"><span class="ico">🎮</span>Jelajahi Game</button>
+    <button class="active" data-page="Berita"><span class="ico">▤</span>Berita</button>
+    <button data-page="Turnamen"><span class="ico">🏆</span>Turnamen</button>
+    <button data-page="Komunitas"><span class="ico">♟</span>Komunitas</button>
+    <button data-page="Profil"><span class="ico">♙</span>Profil</button>
+  </nav>
+  <div class="join"><div class="crown">👑</div><h3>Join Komunitas<br>PLAYORA!</h3><p>Diskusi, berbagi tips, dan temukan teman sesama gamer.</p><button class="primary" id="joinBtn">Gabung Sekarang →</button></div>
+  <div class="socials"><span>🎮</span><span>▶</span><span>◎</span><span>𝕏</span></div>
+</aside>
+<main>
+  <header class="topbar">
+    <label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="Cari berita, game, atau topik..." aria-label="Cari berita"></label>
+    <div class="top-actions">
+      <button class="notification" id="notifBtn" aria-label="Notifikasi">♧<b>2</b></button>
+      <button id="profileBtn" aria-label="Profil"><span class="avatar">👩🏻‍🎤</span>⌄</button>
+      <div class="dropdown" id="profileMenu"><button data-action="Profil">👤 Lihat Profil</button><button data-action="Simpan">🔖 Berita Tersimpan</button><button data-action="Keluar">↪ Keluar</button></div>
+      <div class="dropdown" id="notifMenu"><strong>Notifikasi</strong><p style="font-size:13px;color:#d0cbe9">• Ada 2 berita gaming terbaru untukmu.</p><button id="markRead">Tandai sudah dibaca</button></div>
+    </div>
+  </header>
+  <section class="heading"><div class="heading-left"><div class="accent"></div><div><h1>Berita</h1><p>Informasi terbaru seputar dunia game, esports, dan industri gaming!</p></div></div><button class="outline" id="filterBtn">⚑ Filter Berita⌄</button></section>
+  <div class="filters" id="filters">
+    <button class="chip active" data-filter="Semua">▦ Semua</button>
+    <button class="chip" data-filter="Update Game">🔥 Update Game</button>
+    <button class="chip" data-filter="Esports">🎮 Esports</button>
+    <button class="chip" data-filter="Tips & Tutorial">◧ Tips & Tutorial</button>
+    <button class="chip" data-filter="Review">☆ Review</button>
+    <button class="chip" data-filter="Industri">📢 Industri</button>
+    <button class="chip" data-filter="Event">▣ Event</button>
+  </div>
+  <div class="content">
+    <section class="left-col">
+      <article class="hero">
+        <div class="hero-art"></div>
+        <div class="hero-content"><span class="tag" id="heroTag">♧ Update Game</span><h2 id="heroTitle">Genshin Impact Versi 6.0 Resmi Hadir, Bawa Region Baru “Lunae”!</h2><p id="heroDesc">HoYoverse resmi merilis update besar Genshin Impact versi 6.0 dengan region baru bernama Lunae, karakter baru, dan berbagai konten menarik lainnya.</p><div class="meta"><span>▣ <span id="heroDate">5 Nov 2025</span></span><span>◷ 3 menit baca</span></div></div>
+        <button class="read" id="heroRead">Baca Selengkapnya →</button><div class="dots"><i class="active"></i><i></i><i></i><i></i></div>
+      </article>
+      <div class="section-title"><h2>Berita Terbaru</h2><button class="text-link" id="seeAll">Lihat Semua →</button></div>
+      <div class="cards" id="newsCards">
+        <article class="news-card" data-category="Tips & Tutorial" data-title="Tips Build Karakter Rover di Wuthering Waves"><div class="thumb" style="background-image:linear-gradient(135deg,#4968aa,#192c4c),url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=700&q=80')"><span class="tag">Tips & Tutorial</span><button class="bookmark" aria-label="Simpan berita">♧</button></div><div class="card-body"><h3>Tips Build Karakter Rover di Wuthering Waves</h3><div class="meta"><span>▣ 5 Nov 2025</span><span>◉ 120K</span></div></div></article>
+        <article class="news-card" data-category="Esports" data-title="Valorant Champions 2025 Siap Digelar di Paris!"><div class="thumb" style="background-image:linear-gradient(135deg,#b21d4d,#21112f),url('https://images.unsplash.com/photo-1560253023-3ec5d502959f?auto=format&fit=crop&w=700&q=80')"><span class="tag">Esports</span><button class="bookmark" aria-label="Simpan berita">♧</button></div><div class="card-body"><h3>Valorant Champions 2025 Siap Digelar di Paris!</h3><div class="meta"><span>▣ 4 Nov 2025</span><span>◉ 189K</span></div></div></article>
+        <article class="news-card" data-category="Industri" data-title="Steam Autumn Sale 2025 Resmi Dimulai!"><div class="thumb" style="background-image:linear-gradient(135deg,#263d78,#0e172e),url('https://images.unsplash.com/photo-1493711662062-fa541 takt?auto=format&fit=crop&w=700&q=80')"><span class="tag">Industri</span><button class="bookmark" aria-label="Simpan berita">♧</button></div><div class="card-body"><h3>Steam Autumn Sale 2025 Resmi Dimulai!</h3><div class="meta"><span>▣ 3 Nov 2025</span><span>◉ 317K</span></div></div></article>
+        <article class="news-card" data-category="Update Game" data-title="Update besar game hadir dengan konten baru"><div class="thumb" style="background:linear-gradient(135deg,#4b2788,#172c50)"><span class="tag">Update Game</span><button class="bookmark" aria-label="Simpan berita">♧</button></div><div class="card-body"><h3>Update Besar Game Hadir dengan Konten Baru</h3><div class="meta"><span>▣ 2 Nov 2025</span><span>◉ 92K</span></div></div></article>
+        <article class="news-card" data-category="Review" data-title="Review game terbaru pilihan editor"><div class="thumb" style="background:linear-gradient(135deg,#8b3a69,#25214c)"><span class="tag">Review</span><button class="bookmark" aria-label="Simpan berita">♧</button></div><div class="card-body"><h3>Review Game Terbaru: Pilihan Editor</h3><div class="meta"><span>▣ 1 Nov 2025</span><span>◉ 76K</span></div></div></article>
+        <article class="news-card" data-category="Event" data-title="Jadwal event gaming bulan ini"><div class="thumb" style="background:linear-gradient(135deg,#345b86,#28164e)"><span class="tag">Event</span><button class="bookmark" aria-label="Simpan berita">♧</button></div><div class="card-body"><h3>Jadwal Event Gaming Bulan Ini</h3><div class="meta"><span>▣ 31 Okt 2025</span><span>◉ 65K</span></div></div></article>
+      </div>
+    </section>
+    <aside class="right-col">
+      <section class="popular"><div class="popular-head"><h2>🔥 Berita Populer</h2><button class="text-link" id="popularAll">Lihat Semua →</button></div>
+        <div class="popular-item"><span class="rank">1</span><div class="popular-img" style="background-image:url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=300&q=70')"></div><div class="popular-info"><h3>Zenless Zone Zero Update 2.4 Bawa Karakter Baru dan Event Seru!</h3><div class="meta"><span>▣ 2 Nov 2025</span><span>◉ 842K</span></div></div></div>
+        <div class="popular-item"><span class="rank">2</span><div class="popular-img" style="background-image:url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=300&q=70')"></div><div class="popular-info"><h3>Mobile Legends: Bang Bang Kolaborasi dengan Naruto!</h3><div class="meta"><span>▣ 1 Nov 2025</span><span>◉ 721K</span></div></div></div>
+        <div class="popular-item"><span class="rank">3</span><div class="popular-img" style="background-image:linear-gradient(135deg,#498d6a,#253e69)"></div><div class="popular-info"><h3>Minecraft 1.22 Rilis dengan Fitur Trails & Tales 2.0</h3><div class="meta"><span>▣ 31 Okt 2025</span><span>◉ 689K</span></div></div></div>
+        <div class="popular-item"><span class="rank">4</span><div class="popular-img" style="background-image:linear-gradient(135deg,#8b6c2b,#211b3b)"></div><div class="popular-info"><h3>MPL ID S16 Resmi Dimulai, Tim Favoritmu Siap Bertarung?</h3><div class="meta"><span>▣ 30 Okt 2025</span><span>◉ 653K</span></div></div></div>
+        <div class="popular-item"><span class="rank">5</span><div class="popular-img" style="background:linear-gradient(135deg,#1946a4,#07152e);display:grid;place-items:center;font-size:35px">▶</div><div class="popular-info"><h3>PlayStation 6 Bakal Hadir Tahun 2027?</h3><div class="meta"><span>▣ 3 Nov 2025</span><span>◉ 610K</span></div></div></div>
+      </section>
+      <section class="newsletter"><div class="mail">✉️</div><h2>Dapatkan Berita Terbaru Langsung ke Email Kamu!</h2><p>Berlangganan newsletter PLAYORA dan jangan lewatkan update penting lainnya.</p><form class="subscribe" id="subscribeForm"><input type="email" id="emailInput" placeholder="Masukkan email kamu" required><button type="submit">Berlangganan</button></form><div class="message" id="subscribeMessage" aria-live="polite"></div></section>
+    </aside>
+  </div>
+</main>
+</div>
+<div class="modal" id="articleModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-box"><span class="tag" id="modalTag">Berita</span><h2 id="modalTitle">Judul berita</h2><p id="modalText">Ringkasan berita.</p><p style="font-size:13px">PLAYORA • Berita gaming</p><div class="modal-actions"><button class="outline" id="closeModal">Tutup</button><button class="primary" id="saveFromModal">🔖 Simpan berita</button></div></div></div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>[...root.querySelectorAll(s)];
+const toast=(message)=>{const t=$('#toast');t.textContent=message;t.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('show'),2600)};
+let activeFilter='Semua', currentArticle={title:$('#heroTitle').textContent,category:'Update Game',text:$('#heroDesc').textContent};
+function filterNews(){const q=$('#searchInput').value.trim().toLowerCase();$$('.news-card').forEach(card=>{const matchesCategory=activeFilter==='Semua'||card.dataset.category===activeFilter;const matchesSearch=!q||(card.dataset.title+' '+card.dataset.category).toLowerCase().includes(q);card.style.display=matchesCategory&&matchesSearch?'':'none'});}
+$$('.chip').forEach(btn=>btn.addEventListener('click',()=>{$$('.chip').forEach(x=>x.classList.remove('active'));btn.classList.add('active');activeFilter=btn.dataset.filter;filterNews()}));
+$('#searchInput').addEventListener('input',filterNews);
+$('#filterBtn').addEventListener('click',()=>{const choices=['Semua','Update Game','Esports','Tips & Tutorial','Review','Industri','Event'];const next=choices[(choices.indexOf(activeFilter)+1)%choices.length];const button=$(`[data-filter="${next}"]`);button.click();toast('Filter: '+next)});
+function openArticle(article){currentArticle=article;$('#modalTitle').textContent=article.title;$('#modalTag').textContent=article.category;$('#modalText').textContent=article.text||'Baca informasi terbaru dan perkembangan selengkapnya seputar dunia gaming di PLAYORA.';$('#articleModal').classList.add('show')}
+$('#heroRead').addEventListener('click',()=>openArticle({title:$('#heroTitle').textContent,category:'Update Game',text:$('#heroDesc').textContent}));
+$$('.news-card').forEach(card=>card.addEventListener('click',e=>{if(e.target.closest('.bookmark'))return;openArticle({title:card.dataset.title,category:card.dataset.category})}));
+$('#closeModal').addEventListener('click',()=>$('#articleModal').classList.remove('show'));
+$('#articleModal').addEventListener('click',e=>{if(e.target.id==='articleModal')e.currentTarget.classList.remove('show')});
+function toggleSave(button){button.classList.toggle('saved');button.textContent=button.classList.contains('saved')?'♥':'♧';toast(button.classList.contains('saved')?'Berita ditambahkan ke tersimpan':'Berita dihapus dari tersimpan')}
+$$('.bookmark').forEach(btn=>btn.addEventListener('click',()=>toggleSave(btn)));
+$('#saveFromModal').addEventListener('click',()=>{toast('“'+currentArticle.title+'” disimpan');$('#articleModal').classList.remove('show')});
+$('#subscribeForm').addEventListener('submit',e=>{e.preventDefault();const email=$('#emailInput').value.trim();if(!email)return;$('#subscribeMessage').textContent='✓ Berhasil berlangganan dengan '+email;$('#subscribeForm').reset();toast('Terima kasih sudah berlangganan!')});
+$('#joinBtn').addEventListener('click',()=>toast('Fitur komunitas siap dihubungkan ke halaman pendaftaran.'));
+$('#profileBtn').addEventListener('click',()=>{$('#profileMenu').classList.toggle('show');$('#notifMenu').classList.remove('show')});
+$('#notifBtn').addEventListener('click',()=>{$('#notifMenu').classList.toggle('show');$('#profileMenu').classList.remove('show')});
+$('#markRead').addEventListener('click',()=>{$('#notifBtn b').style.display='none';$('#notifMenu').classList.remove('show');toast('Notifikasi ditandai sudah dibaca')});
+$$('[data-action]').forEach(btn=>btn.addEventListener('click',()=>{toast(btn.dataset.action==='Simpan'?'Daftar berita tersimpan akan ditampilkan di sini.':btn.dataset.action+' dipilih.');$('#profileMenu').classList.remove('show')}));
+document.addEventListener('click',e=>{if(!e.target.closest('.top-actions')){$('#profileMenu').classList.remove('show');$('#notifMenu').classList.remove('show')}});
+$$('.nav button').forEach(btn=>btn.addEventListener('click',()=>{$$('.nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');if(btn.dataset.page!=='Berita')toast('Halaman '+btn.dataset.page+' dipilih — hubungkan ke route halaman terkait.');}));
+$('#seeAll').addEventListener('click',()=>{$$('.chip').forEach(x=>x.classList.remove('active'));$('.chip[data-filter="Semua"]').classList.add('active');activeFilter='Semua';$('#searchInput').value='';filterNews();toast('Menampilkan semua berita')});
+$('#popularAll').addEventListener('click',()=>toast('Daftar berita populer lengkap akan ditampilkan di sini.'));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#articleModal').classList.remove('show')});
+</script>
+</body>
+</html>

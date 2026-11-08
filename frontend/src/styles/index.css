@@ -1,0 +1,307 @@
+@import "tailwindcss";
+
+/*
+ * Token desain PLAYORA — mengacu pada PLAYORA_UI_UX_Design_Guideline_v1
+ * (dark gaming, ungu elektrik sebagai warna identitas dan aksi utama).
+ *
+ * Nama lama (navy-*) sengaja dipertahankan sebagai jembatan agar komponen
+ * yang belum disentuh tetap terbaca pada tema gelap.
+ */
+@theme {
+  /* Palet resmi panduan UI/UX */
+  --color-primary: #7138f5;
+  --color-primary-dark: #4b1db8;
+  --color-accent-pink: #c35bff;
+  --color-accent-blue: #657bff;
+  --color-gold: #ffd21c;
+
+  --color-bg: #0b0b18;
+  --color-surface: #15152a;
+  --color-surface-2: #1d1b36;
+  --color-line: #302b50;
+
+  --color-ink: #f5f3ff;
+  --color-muted: #b8b3d6;
+
+  --color-accent: #7138f5;
+  --color-success: #35c98a;
+  --color-warning: #ffc857;
+  --color-danger: #ff647c;
+
+  /* Jembatan kompatibilitas untuk kelas lama */
+  --color-navy-50: #1d1b36;
+  --color-navy-100: #262246;
+  --color-navy-200: #cbc5e6;
+  --color-navy-300: #b8b3d6;
+  --color-navy-400: #8f88b8;
+  --color-navy-500: #657bff;
+  --color-navy-600: #a98bff;
+  --color-navy-700: #c9b8ff;
+  --color-navy-800: #f5f3ff;
+  --color-navy-900: #0b0b18;
+  --color-navy-950: #07070f;
+
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  --radius-control: 10px;
+  --radius-card: 16px;
+
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background-color: var(--color-bg);
+    background-image: radial-gradient(
+      ellipse at 50% -30%,
+      #22204b 0,
+      #0a0d1b 48%,
+      #080b16 100%
+    );
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+  }
+
+  p {
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent-pink);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: #fff;
+  }
+}
+
+@layer utilities {
+  /*
+   * Jembatan migrasi: kartu lama memakai `bg-white`. Pada tema gelap semua
+   * permukaan tersebut dipetakan ke surface. `text-white` tidak terpengaruh.
+   */
+  .bg-white {
+    background-color: var(--color-surface);
+  }
+}
+
+@layer components {
+  .playora-container {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 48rem) {
+    .playora-container {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Permukaan */
+  .pl-card {
+    background: linear-gradient(145deg, #1c203e, #111528);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+  }
+
+  .pl-panel {
+    background: linear-gradient(145deg, #171a34, #111528);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+  }
+
+  /* Tombol */
+  .pl-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: var(--radius-control);
+    padding: 0.7rem 1.1rem;
+    background: linear-gradient(100deg, #7135f5, #8b35f4);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.875rem;
+    transition: filter 0.2s, transform 0.2s;
+  }
+
+  .pl-btn:hover {
+    filter: brightness(1.12);
+    transform: translateY(-1px);
+  }
+
+  .pl-btn:disabled {
+    opacity: 0.55;
+    filter: none;
+    transform: none;
+    cursor: not-allowed;
+  }
+
+  .pl-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: var(--radius-control);
+    padding: 0.7rem 1.1rem;
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    color: var(--color-ink);
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: background 0.2s;
+  }
+
+  .pl-btn-outline:hover {
+    background: rgba(113, 56, 245, 0.14);
+  }
+
+  .pl-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    border-radius: var(--radius-control);
+    padding: 0.55rem 0.8rem;
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-line);
+    color: var(--color-ink);
+    font-weight: 600;
+    font-size: 0.75rem;
+  }
+
+  .pl-btn-ghost:hover {
+    border-color: var(--color-primary);
+  }
+
+  /* Input */
+  .pl-input {
+    width: 100%;
+    border-radius: var(--radius-control);
+    border: 1px solid var(--color-line);
+    background: #0f1225;
+    color: var(--color-ink);
+    padding: 0.65rem 0.85rem;
+    font-size: 0.875rem;
+  }
+
+  .pl-input::placeholder {
+    color: rgba(184, 179, 214, 0.7);
+  }
+
+  .pl-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(113, 56, 245, 0.25);
+  }
+
+  /* Label & teks */
+  .pl-eyebrow {
+    display: inline-block;
+    background: var(--color-primary);
+    color: #fff;
+    border-radius: 7px;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .pl-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-ink);
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 40rem) {
+    .pl-title {
+      font-size: 2.125rem;
+    }
+  }
+
+  .pl-section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+
+  .pl-link {
+    color: #a56aff;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .pl-link:hover {
+    color: var(--color-accent-pink);
+  }
+
+  /* Chip / badge */
+  .pl-chip {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    background: #292c4c;
+    color: #d5d3f1;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.6875rem;
+    white-space: nowrap;
+  }
+
+  /* Tabel admin */
+  .pl-table {
+    width: 100%;
+    text-align: left;
+    font-size: 0.875rem;
+    border-collapse: collapse;
+  }
+
+  .pl-table thead th {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-muted);
+    padding: 0.6rem 0.75rem 0.6rem 0;
+    border-bottom: 1px solid var(--color-line);
+    white-space: nowrap;
+  }
+
+  .pl-table tbody td {
+    padding: 0.8rem 0.75rem 0.8rem 0;
+    border-bottom: 1px solid rgba(48, 43, 80, 0.6);
+    vertical-align: middle;
+  }
+
+  .pl-scroll-x {
+    overflow-x: auto;
+  }
+}

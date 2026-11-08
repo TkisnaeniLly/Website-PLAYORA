@@ -1,0 +1,56 @@
+{
+    "name":  "playora-backend",
+    "version":  "0.1.0",
+    "private":  true,
+    "description":  "API PLAYORA - platform informasi game dan komunitas gamer Indonesia",
+    "main":  "dist/server.js",
+    "scripts":  {
+                    "dev":  "tsx watch src/server.ts",
+                    "build":  "tsc -p tsconfig.json",
+                    "start":  "node dist/server.js",
+                    "typecheck":  "tsc --noEmit \u0026\u0026 tsc -p tsconfig.seed.json",
+                    "prisma:generate":  "prisma generate",
+                    "prisma:validate":  "prisma validate",
+                    "prisma:migrate":  "prisma migrate dev",
+                    "prisma:studio":  "prisma studio",
+                    "db:seed":  "tsx prisma/seed.ts",
+                    "db:verify":  "node scripts/verify-schema.mjs",
+                    "db:verify-seed":  "node scripts/verify-seed.mjs",
+                    "auth:verify":  "node scripts/verify-auth.mjs",
+                    "test":  "vitest run",
+                    "test:watch":  "vitest",
+                    "test:coverage":  "vitest run --coverage"
+                },
+    "prisma":  {
+                   "seed":  "tsx prisma/seed.ts"
+               },
+    "dependencies":  {
+                         "@prisma/client":  "6.19.3",
+                         "bcryptjs":  "3.0.3",
+                         "cookie-parser":  "1.4.7",
+                         "cors":  "2.8.6",
+                         "dotenv":  "18.0.9",
+                         "express":  "5.3.0",
+                         "express-rate-limit":  "8.7.3",
+                         "helmet":  "8.3.0",
+                         "jsonwebtoken":  "9.0.3",
+                         "zod":  "4.6.7"
+                     },
+    "devDependencies":  {
+                            "@types/cookie-parser":  "1.4.10",
+                            "@types/cors":  "2.8.19",
+                            "@types/express":  "5.0.6",
+                            "@types/jsonwebtoken":  "9.0.10",
+                            "@types/node":  "24.19.2",
+                            "@types/supertest":  "^7.2.1",
+                            "mysql2":  "^3.24.6",
+                            "prisma":  "6.19.3",
+                            "supertest":  "^7.3.1",
+                            "tsx":  "4.23.15",
+                            "typescript":  "5.9.3",
+                            "vitest":  "^5.1.0"
+                        },
+    "engines":  {
+                    "node":  "\u003e=20.19.0"
+                }
+}

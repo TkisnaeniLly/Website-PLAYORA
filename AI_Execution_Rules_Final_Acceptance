@@ -1,0 +1,207 @@
+# 15. AI Execution Rules & Final Acceptance Criteria
+
+## 15.1 Tujuan
+
+Bagian ini menetapkan aturan pelaksanaan bagi AI selama proses pengembangan PLAYORA serta kriteria yang harus dipenuhi sebelum proyek dinyatakan selesai.
+
+AI bertindak sebagai development assistant yang bertanggung jawab membantu implementasi frontend, backend, database, integrasi, pengujian, dan dokumentasi berdasarkan spesifikasi proyek.
+
+AI tidak memiliki kewenangan untuk mengubah keputusan utama proyek tanpa persetujuan pengguna.
+
+## 15.2 AI Execution Rules
+
+### A. Specification Compliance
+
+1. AI wajib membaca dan memahami seluruh dokumen spesifikasi sebelum memulai implementasi.
+2. Seluruh fitur harus mengacu pada Product Requirements dan Functional Requirements.
+3. Struktur sistem harus mengikuti System Architecture.
+4. Database harus mengikuti Database Design.
+5. Endpoint harus mengikuti API Specification.
+6. Tampilan harus mengikuti UI/UX Specification.
+7. Implementasi harus mengikuti Business Logic dan Coding Standards.
+8. Pengujian harus mengikuti Testing & Quality Assurance.
+9. Deployment harus mengikuti Deployment Specification.
+
+### B. Scope Control
+
+AI dilarang:
+
+* Menambahkan fitur yang tidak tercantum dalam MVP.
+* Mengubah konsep utama PLAYORA.
+* Mengganti teknologi utama tanpa persetujuan.
+* Mengubah struktur database tanpa alasan dan penjelasan.
+* Membuat role pengguna baru.
+* Mengubah aturan bisnis yang sudah ditetapkan.
+* Mengintegrasikan layanan eksternal yang belum disetujui.
+* Mengembangkan fitur masa depan seolah-olah merupakan bagian MVP.
+
+Jika menemukan ide pengembangan tambahan, AI boleh menyampaikannya sebagai rekomendasi terpisah, tetapi tidak boleh langsung mengimplementasikannya.
+
+### C. Handling Unclear Requirements
+
+Jika menemukan informasi yang belum ditentukan atau bertentangan, AI harus:
+
+1. Mengidentifikasi bagian spesifikasi yang belum jelas.
+2. Menjelaskan dampaknya terhadap implementasi.
+3. Menandai kebutuhan tersebut sebagai TBD.
+4. Mengajukan pertanyaan kepada pengguna jika keputusan diperlukan.
+5. Tidak membuat asumsi yang mengubah kebutuhan utama.
+
+AI boleh menentukan detail teknis kecil yang tidak mengubah kebutuhan produk, selama keputusan tersebut konsisten dengan arsitektur dan standar proyek.
+
+### D. Code Management
+
+1. Periksa kode yang sudah tersedia sebelum membuat perubahan.
+2. Hindari membuat file atau fungsi yang memiliki tugas sama.
+3. Jangan menimpa atau menghapus implementasi yang sudah berjalan tanpa alasan.
+4. Pertahankan konsistensi penamaan dan struktur folder.
+5. Pastikan perubahan tidak merusak fitur lain.
+6. Gunakan dependency sesuai teknologi yang telah disepakati.
+7. Jangan membuat konfigurasi atau kredensial palsu untuk menyamarkan fitur yang belum berfungsi.
+
+### E. Communication & Progress Reporting
+
+Setelah menyelesaikan setiap pekerjaan, AI harus menyampaikan:
+
+* Bagian yang telah dikerjakan.
+* File yang dibuat atau diubah.
+* Fitur yang berhasil diimplementasikan.
+* Hasil pengujian.
+* Kendala yang ditemukan.
+* Pekerjaan yang masih tertunda.
+* Keputusan yang membutuhkan persetujuan pengguna.
+
+Penjelasan harus singkat, jelas, dan mudah dipahami.
+
+## 15.3 Development Approval
+
+Pengembangan dilakukan menggunakan sistem persetujuan bertahap.
+
+| Tahap                   | Hasil yang Harus Diperiksa              |
+| ----------------------- | --------------------------------------- |
+| Project Initialization  | Struktur proyek dan konfigurasi         |
+| Database Implementation | Schema, relasi, dan migration           |
+| Backend Development     | API dan business logic                  |
+| Frontend Foundation     | Struktur halaman dan komponen           |
+| Feature Development     | Fungsi setiap modul                     |
+| Integration             | Koneksi frontend, backend, dan database |
+| Testing                 | Hasil pengujian dan perbaikan bug       |
+| Finalization            | Kelengkapan sistem dan dokumentasi      |
+
+AI harus memberikan hasil setiap tahap agar pengguna dapat memeriksa dan memberikan persetujuan sebelum melanjutkan apabila diperlukan.
+
+## 15.4 Final Acceptance Criteria
+
+PLAYORA dapat dinyatakan selesai apabila memenuhi kriteria berikut.
+
+### A. Functional Completeness
+
+* Seluruh fitur MVP sudah diimplementasikan.
+* Navigasi antarhalaman berjalan.
+* Registrasi, login, dan logout berfungsi.
+* Game catalog dan detail game berfungsi.
+* Pencarian dan filter game berjalan.
+* News dan Guides dapat dikelola serta ditampilkan.
+* Tournament listing dan detail berjalan.
+* Proses pengajuan dan verifikasi turnamen berjalan sesuai ketentuan yang telah disepakati.
+* Favorites dan Bookmarks berfungsi.
+* Notifications berfungsi.
+* Profile dan Settings tersedia sesuai ruang lingkup MVP.
+* Admin Dashboard dapat digunakan.
+* Admin dapat mengelola konten dan pengguna.
+
+### B. Technical Completeness
+
+* Frontend menggunakan React.js dan TypeScript.
+* Backend menggunakan Node.js dan Express.js.
+* Database menggunakan MySQL.
+* Prisma terhubung dengan database.
+* API berjalan sesuai spesifikasi.
+* Autentikasi dan otorisasi diterapkan.
+* Validasi menggunakan Zod.
+* Password disimpan dalam bentuk hash menggunakan bcrypt.
+* Upload gambar menggunakan Cloudinary.
+* Environment variables dikonfigurasi dengan benar.
+* Tidak terdapat ketergantungan pada dummy data untuk fungsi utama.
+
+### C. UI/UX Completeness
+
+* Identitas visual PLAYORA menggunakan Navy Blue.
+* Seluruh halaman utama tersedia.
+* Desain konsisten.
+* Komponen reusable digunakan secara tepat.
+* Tampilan responsif.
+* Loading, empty, error, dan success state tersedia sesuai kebutuhan.
+* Tidak terdapat elemen utama yang rusak atau terpotong.
+
+### D. Security & Reliability
+
+* Hak akses sesuai role.
+* Data pribadi terlindungi.
+* Endpoint sensitif dilindungi.
+* Validasi input berjalan.
+* Error handling tersedia.
+* Tidak terdapat bug Critical atau High yang belum diselesaikan.
+* Data tersimpan dengan benar.
+* Backup database dan dokumentasi recovery tersedia.
+
+### E. Documentation Completeness
+
+Dokumentasi minimal mencakup:
+
+* README proyek.
+* Cara instalasi.
+* Cara menjalankan frontend dan backend.
+* Konfigurasi environment variables.
+* Pengaturan database.
+* Prisma migration.
+* Daftar endpoint API.
+* Struktur folder.
+* Panduan penggunaan dasar.
+* Panduan deployment.
+
+## 15.5 Final Project Report
+
+Setelah seluruh implementasi selesai, AI harus memberikan laporan akhir yang mencakup:
+
+1. Ringkasan hasil pengembangan PLAYORA.
+2. Fitur yang berhasil diimplementasikan.
+3. Struktur teknologi yang digunakan.
+4. Struktur database.
+5. Daftar endpoint API.
+6. Hasil pengujian.
+7. Daftar bug yang masih tersisa jika ada.
+8. Cara menjalankan aplikasi.
+9. Status kesiapan deployment.
+10. Daftar fitur yang belum diimplementasikan beserta alasannya.
+
+AI tidak boleh menyatakan seluruh proyek selesai apabila masih terdapat fitur wajib yang belum diimplementasikan.
+
+## 15.6 Final Instruction to AI
+
+Gunakan seluruh dokumen spesifikasi PLAYORA sebagai sumber utama dalam proses pengembangan.
+
+Bangun aplikasi secara bertahap, mulai dari persiapan proyek hingga finalisasi. Jangan langsung menghasilkan seluruh kode dalam satu proses.
+
+Prioritaskan:
+
+* Kesesuaian dengan kebutuhan MVP.
+* Struktur kode yang rapi dan modular.
+* Konsistensi frontend dan backend.
+* Database yang terintegrasi.
+* Keamanan dan validasi data.
+* Tampilan yang konsisten.
+* Pengujian setiap fitur.
+* Dokumentasi yang jelas.
+
+Jangan menambahkan fitur, teknologi, atau kebutuhan baru tanpa persetujuan pengguna.
+
+Jika terdapat ketidakjelasan, berhenti pada bagian yang terdampak dan minta klarifikasi. Jangan mengarang keputusan untuk melengkapi spesifikasi.
+
+**Hasil akhir yang diharapkan adalah website PLAYORA yang benar-benar berfungsi, responsif, terintegrasi dengan database, memiliki hak akses sesuai ketentuan, dan memenuhi seluruh kebutuhan MVP yang telah disepakati.**
+
+## 15.7 Prinsip Penutup
+
+PLAYORA dikembangkan bukan sekadar sebagai tampilan website, melainkan sebagai sistem informasi gaming yang memiliki struktur, fungsi, pengelolaan data, dan alur kerja yang jelas.
+
+Keberhasilan proyek diukur berdasarkan kesesuaian implementasi dengan spesifikasi, bukan berdasarkan banyaknya fitur atau kompleksitas teknologi yang digunakan.

@@ -15,7 +15,7 @@ import {
   managedTournamentRoutes,
 } from "../modules/tournament-management/management.routes";
 import { adminManagementRoutes } from "../modules/admin-management/admin-management.routes";
-import { adminUploadRoutes, uploadRoutes } from "../modules/uploads/uploads.routes";
+//import { adminUploadRoutes, uploadRoutes } from "../modules/uploads/uploads.routes";
 import {
   adminChangeRequestRoutes,
   changeRequestRoutes,
@@ -44,14 +44,14 @@ apiRouter.use("/me/notifications", notificationRoutes);
 apiRouter.use("/me/profile", profileRoutes);
 apiRouter.use("/me/favorites", favoriteRoutes);
 apiRouter.use("/me/bookmarks", bookmarkRoutes);
-apiRouter.use("/me/uploads", uploadRoutes);
+//apiRouter.use("/me/uploads", uploadRoutes);
 apiRouter.use("/tournaments", changeRequestRoutes);
 apiRouter.use("/community/discord-rooms", discordRoomRoutes);
 apiRouter.use("/community", communityRoutes);
 apiRouter.use("/admin/tournaments", adminTournamentRoutes);
 apiRouter.use("/admin/discord-rooms", adminDiscordRoomRoutes);
 apiRouter.use("/admin", adminManagementRoutes);
-apiRouter.use("/admin/uploads", adminUploadRoutes);
+//apiRouter.use("/admin/uploads", adminUploadRoutes);
 apiRouter.use("/admin/change-requests", adminChangeRequestRoutes);
 apiRouter.use("/admin/community", adminCommunityRoutes);
 apiRouter.use("/admin", adminRoutes);

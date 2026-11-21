@@ -192,7 +192,7 @@ export function AdminDashboardPage() {
                     </AdminBadge>
                   </div>
                   <p className="mt-1 text-[10px] text-[#8f88b8]">
-                    {item.submitter.name} \u00b7 {waktuRelatif(item.submittedAt)}
+                    {item.submitter.name} · {waktuRelatif(item.submittedAt)}
                   </p>
                 </li>
               ))}
@@ -205,14 +205,14 @@ export function AdminDashboardPage() {
               className="flex items-center justify-between rounded-xl border border-[#26264F] bg-[#11132B] px-3 py-2.5 text-xs text-[#cbc5e6] hover:border-[#7135f5]"
             >
               Tinjauan perubahan turnamen
-              <span aria-hidden="true">\u2192</span>
+              <span aria-hidden="true">→</span>
             </Link>
             <Link
               to="/admin/community"
               className="flex items-center justify-between rounded-xl border border-[#26264F] bg-[#11132B] px-3 py-2.5 text-xs text-[#cbc5e6] hover:border-[#7135f5]"
             >
               Moderasi komunitas & ruang Discord
-              <span aria-hidden="true">\u2192</span>
+              <span aria-hidden="true">→</span>
             </Link>
           </div>
         </AdminPanel>

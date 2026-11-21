@@ -230,8 +230,19 @@ export async function ubahArtikel(id: string, input: AdminArticleUpdateInput) {
         ...(input.category !== undefined ? { category: input.category } : {}),
         ...(input.thumbnailUrl !== undefined ? { thumbnailUrl: input.thumbnailUrl || null } : {}),
         ...(input.gameId !== undefined ? { gameId: input.gameId || null } : {}),
-        ...(input.status !== undefined ? { status: input.status } : {}),
-        ...(input.publishedAt !== undefined ? { publishedAt: input.publishedAt } : {}),
+        ...(input.status !== undefined
+          ? {
+              status: input.status,
+              publishedAt:
+                input.publishedAt !== undefined
+                  ? input.publishedAt
+                  : input.status === "PUBLISHED"
+                    ? new Date()
+                    : null,
+            }
+          : input.publishedAt !== undefined
+            ? { publishedAt: input.publishedAt }
+            : {}),
       },
       select: PILIHAN_ARTIKEL,
     });

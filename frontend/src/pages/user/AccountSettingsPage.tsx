@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { ChangeEvent, FormEvent } from "react";
+import type { FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Field } from "@/components/ui/Field";
 import { TextArea } from "@/components/ui/TextArea";
@@ -8,23 +8,17 @@ import {
   useProfile,
   useUpdateProfile,
 } from "@/hooks/useAccount";
-import { useUploadAvatar, useUploadStatus } from "@/hooks/useUploads";
 import { extractApiError } from "@/lib/api";
-import { bacaSebagaiDataUrl } from "@/lib/uploads";
 
 export function AccountSettingsPage() {
   const profil = useProfile();
   const simpanProfil = useUpdateProfile();
   const gantiSandi = useChangePassword();
-  const statusUnggah = useUploadStatus();
-  const unggahAvatar = useUploadAvatar();
 
   const [nama, setNama] = useState("");
   const [username, setUsername] = useState("");
   const [bio, setBio] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
-  const [galatUnggah, setGalatUnggah] = useState<string | null>(null);
-  const [suksesUnggah, setSuksesUnggah] = useState(false);
 
   const [sandiLama, setSandiLama] = useState("");
   const [sandiBaru, setSandiBaru] = useState("");
@@ -66,26 +60,6 @@ export function AccountSettingsPage() {
 
   function pesanSandi(namaField: string): string | undefined {
     return galatSandi?.details.find((d) => d.field === namaField)?.message;
-  }
-
-  async function pilihBerkas(event: ChangeEvent<HTMLInputElement>) {
-    const berkas = event.target.files?.[0];
-    event.target.value = "";
-    if (!berkas) return;
-
-    setGalatUnggah(null);
-    setSuksesUnggah(false);
-
-    try {
-      const dataUrl = await bacaSebagaiDataUrl(berkas);
-      const hasil = await unggahAvatar.mutateAsync(dataUrl);
-      setAvatarUrl(hasil.url);
-      setSuksesUnggah(true);
-    } catch (error) {
-      setGalatUnggah(
-        error instanceof Error ? error.message : extractApiError(error).message,
-      );
-    }
   }
 
   if (profil.isPending) {
@@ -213,33 +187,6 @@ export function AccountSettingsPage() {
             placeholder="https://..."
             petunjuk="Opsional. Harus diawali http:// atau https://."
           />
-
-          {statusUnggah.data?.aktif ? (
-            <div className="rounded-[var(--radius-control)] bg-navy-50 px-3 py-2" data-testid="unggah-avatar">
-              <label className="block text-xs font-semibold uppercase tracking-wide text-navy-700">
-                Unggah avatar
-              </label>
-              <input
-                type="file"
-                accept="image/jpeg,image/png,image/webp,image/gif"
-                onChange={(e) => void pilihBerkas(e)}
-                className="mt-2 block w-full text-xs text-navy-800 file:mr-3 file:rounded-[var(--radius-control)] file:border-0 file:bg-[#7138F5] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white"
-              />
-              <p className="mt-1 text-[11px] text-muted">Maksimal 2 MB. Unggahan menyimpan tautan ke kolom URL avatar.</p>
-
-              {galatUnggah ? (
-                <p role="alert" className="mt-2 text-xs font-medium text-danger">
-                  {galatUnggah}
-                </p>
-              ) : null}
-
-              {suksesUnggah ? (
-                <p className="mt-2 text-xs font-medium text-success">
-                  Avatar terunggah. Tekan “Simpan profil” untuk menyimpan tautannya.
-                </p>
-              ) : null}
-            </div>
-          ) : null}
 
           <TextArea
             label="Bio"

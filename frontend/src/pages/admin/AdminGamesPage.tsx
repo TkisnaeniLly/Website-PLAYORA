@@ -36,6 +36,14 @@ const KOSONG = {
   platformIds: [] as string[],
 };
 
+const PLATFORM_ID: Record<string, string> = {
+  PC: "10000000-0000-4000-8000-000000000001",
+  "PlayStation 5": "10000000-0000-4000-8000-000000000002",
+  "Xbox Series X|S": "10000000-0000-4000-8000-000000000003",
+  "Nintendo Switch": "10000000-0000-4000-8000-000000000004",
+  Mobile: "10000000-0000-4000-8000-000000000005",
+};
+
 export function AdminGamesPage() {
   const [q, setQ] = useState("");
   const [status, setStatus] = useState<"" | "DRAFT" | "PUBLISHED">("");
@@ -74,7 +82,7 @@ export function AdminGamesPage() {
       coverImageUrl: item.coverImageUrl ?? "",
       isPopular: item.isPopular,
       status: item.status,
-      platformIds: item.platforms.map((p) => p.platform.name),
+      platformIds: item.platforms.map((p) => p.platform.id),
     });
   }
 
@@ -242,7 +250,8 @@ export function AdminGamesPage() {
           <legend className="text-sm font-medium text-white">Platform</legend>
           <div className="mt-2 flex flex-wrap gap-2">
             {DAFTAR_PLATFORM.map((nama) => {
-              const aktif = form.platformIds.includes(nama);
+              const platformId = PLATFORM_ID[nama]!;
+              const aktif = form.platformIds.includes(platformId);
               return (
                 <button
                   key={nama}
@@ -252,8 +261,8 @@ export function AdminGamesPage() {
                     setForm((sebelumnya) => ({
                       ...sebelumnya,
                       platformIds: aktif
-                        ? sebelumnya.platformIds.filter((item) => item !== nama)
-                        : [...sebelumnya.platformIds, nama],
+                        ? sebelumnya.platformIds.filter((item) => item !== platformId)
+                        : [...sebelumnya.platformIds, platformId],
                     }))
                   }
                   className={[
